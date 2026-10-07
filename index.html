@@ -834,8 +834,9 @@ function colorDist(hexA, hexB){
   }catch(e){ return 999; }
 }
 function findClosestOutfitItem(category, hex, gender){
-  const genderKey = (gender === '남자') ? '남자' : '여자';
-  const genderCatalog = OUTFIT_CATALOG[genderKey] || OUTFIT_CATALOG['여자'];
+  const genderKey = gender === '남자' ? '남자' : (gender === '여자' ? '여자' : null);
+  if(!genderKey) return null;
+  const genderCatalog = OUTFIT_CATALOG[genderKey];
   const list = genderCatalog[category];
   if(!list || !list.length || !hex) return null;
   let best = list[0], bestDist = colorDist(hex, list[0].hex);
@@ -900,14 +901,16 @@ function renderColorInfo(){
   const chipRow = (name, options, current) => options.map(o =>
     `<div class="chip ${current===o?'sel':''}" data-field="${name}" data-val="${o}">${o}</div>`).join('');
 
+  const genderSection = `<div class="field"><label>패션 스타일 추천 기준을 선택해주세요</label>
+      <div class="chiprow">${chipRow('gender', ['여자','남자'], state.gender)}</div>
+      <p class="qhint" style="margin:8px 0 0;">선택한 기준은 헤어스타일과 코디 추천에만 반영돼요.</p>
+    </div>`;
+
   const hairSection = state.photoBase64
     ? `<div class="field"><label>지금 머리카락 색 — 색상 견본을 보고 골라보세요</label>
         <div class="swatch-grid">${swatchRow('hairColor', HAIR_COLOR_OPTIONS, state.hairColor)}</div>
       </div>`
-    : `<div class="field"><label>내 캐릭터로 골라볼까요?</label>
-        <div class="chiprow">${chipRow('gender', ['여자','남자','선택 안 함'], state.gender)}</div>
-      </div>
-      <div class="avatar-box">
+    : `<div class="avatar-box">
         <div class="avatar-preview">${characterImgHtml(state.gender)}</div>
       </div>
       <div class="field"><label>머리카락 색 (참고용 — AI 분석에 활용돼요)</label>
@@ -931,12 +934,21 @@ function renderColorInfo(){
   <div class="field"><label>눈동자 색 — 색상 견본을 보고 골라보세요</label>
     <div class="swatch-grid">${swatchRow('eyeColor', EYE_COLOR_OPTIONS, state.eyeColor)}</div>
   </div>
+  ${genderSection}
   ${hairSection}
 
   <div class="nav">
     <button class="btn ghost" onclick="go(-1)">이전</button>
-    <button class="btn primary" onclick="go(1)">다음</button>
+    <button class="btn primary" onclick="goColorInfoNext()">다음</button>
   </div>`;
+}
+
+function goColorInfoNext(){
+  if(!['여자','남자'].includes(state.gender)){
+    alert('패션 스타일 추천을 위해 여자 또는 남자를 선택해주세요.');
+    return;
+  }
+  go(1);
 }
 
 function renderScenario(title, scenarioText, field){
@@ -1156,6 +1168,7 @@ function buildPrompt(){
   lines.push(`- 실버/골드 중 더 어울리는 쪽: ${state.jewelry || '모름'}`);
   lines.push(`- 눈동자 색: ${state.eyeColor || '모름'}`);
   lines.push(`- 지금 머리카락 색: ${state.hairColor || '모름'}`);
+  lines.push(`- 패션 스타일 추천 기준: ${state.gender === '남자' ? '남성' : '여성'}`);
   if(state.favColors) lines.push(`- 평소 끌리는 색: ${state.favColors}`);
   lines.push('');
   lines.push('[성향 질문 답변]');
@@ -1179,6 +1192,9 @@ const SYSTEM_PROMPT = `당신은 초·중·고 학생들을 위한 친절한 퍼
 - '아쉬운 색'은 부드럽게, 비난하지 않는 톤으로 씁니다.
 - [성향 질문 답변]에 있는 E·I, S·N, F·T, J·P 4개 질문에 대한 답변을 각각 분석해서, 각 축마다 어느 쪽에 가까운지 mbti_axes에 반드시 채워주세요. 이건 공식 심리 진단이 아니라 "이 답변에서 느껴지는 경향"이라는 가벼운 톤으로, 재미있는 자기이해 활동처럼 표현합니다. 100% 단정("당신은 무조건 E형입니다")이 아니라 "~한 경향이 보여요" 같은 부드러운 표현을 씁니다.
 - outfit_items는 실제 상품이 아니라 "이런 색 계열의 옷/아이템이 잘 어울려요"라는 색상 조합 제안입니다.
+- [색 정보]의 '패션 스타일 추천 기준'은 헤어스타일·코디·스타일 키워드 추천에만 사용하고, 퍼스널컬러 판정이나 성향 분석에는 영향을 주지 않습니다.
+- 패션 스타일 추천 기준이 '남성'이면 hairstyle_recommend, coordination_concept, style_keywords는 남학생이 자연스럽게 활용할 수 있는 방향으로 제안합니다. 치마, 원피스, 하이힐, 뾰족구두 같은 여성형 아이템을 추천하지 않습니다.
+- 패션 스타일 추천 기준이 '여성'이면 hairstyle_recommend, coordination_concept, style_keywords를 여성 스타일 기준으로 자연스럽게 제안합니다.
 - 모든 문장은 짧고 쉬운 한국어로 씁니다.
 - 전체 응답은 2500 토큰 이내로 작성하되, 무엇보다 **완전한 JSON으로 끝까지 마무리하는 것이 최우선**입니다. 분량이 걱정되면 문장을 더 짧게 줄이세요 — 절대로 문자열이나 배열, 객체가 중간에 잘린 채로 끝나면 안 됩니다.
 - 각 문장은 최대한 짧게(15단어 이내) 씁니다. desc, reason, personality_summary 등 설명 필드는 특히 간결하게 씁니다.

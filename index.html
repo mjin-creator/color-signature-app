@@ -470,239 +470,93 @@
     background:#FFF1EE;border:1px solid #FFC9BE;border-radius:14px;
     padding:14px;font-size:13px;color:#B3402A;margin-bottom:14px;line-height:1.6;
   }
+
+  /* ===== v2: parts / pro-diagnosis additions ===== */
+  .progress-label{
+    text-align:center;color:#F4EEFF;font-size:12.5px;margin-bottom:8px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .part-badge{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+    letter-spacing:.14em;padding:4px 10px;border-radius:99px;color:#fff;font-weight:700;
+  }
+  .part-badge.p1{background:var(--coral);}
+  .part-badge.p2{background:var(--lavender);}
+  .part-hero{
+    border-radius:20px;padding:18px 18px 16px;color:#fff;margin-bottom:16px;
+  }
+  .part-hero.p1{background:linear-gradient(120deg,var(--coral),#FFA25A);}
+  .part-hero.p2{background:linear-gradient(120deg,var(--lavender),var(--sky));}
+  .part-hero small{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;opacity:.92;}
+  .part-hero h2{font-family:'Jua',sans-serif;font-size:26px;margin:4px 0 4px;line-height:1.35;}
+  .part-hero p{margin:0;font-size:13px;line-height:1.6;opacity:.95;}
+  .done-ribbon{
+    background:#E8F8F1;color:#1B7F57;border:1px solid #BDEBD6;border-radius:12px;
+    padding:9px 12px;font-size:13px;font-weight:700;margin-bottom:14px;
+  }
+  .crit-list{display:flex;flex-direction:column;gap:8px;margin:0 0 14px;}
+  .crit{display:flex;gap:10px;align-items:flex-start;background:#F7F2FF;border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.55;}
+  .crit b{flex:none;min-width:48px;color:var(--ink);}
+  .tipbox{
+    background:#FFF8E6;border:1px solid #FFE3A3;border-radius:14px;
+    padding:12px 14px;font-size:12.5px;line-height:1.65;margin-bottom:14px;color:#6b5314;
+  }
+  .qnum{font-weight:700;font-size:13.5px;margin:14px 0 4px;color:var(--ink);}
+  .qsub{font-size:12px;color:var(--muted);margin:0 0 8px;line-height:1.5;}
+  .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .opt-grid.one{grid-template-columns:1fr;}
+  .opt-card{
+    border:1.5px solid var(--line);border-radius:14px;padding:11px 12px;background:#fff;
+    cursor:pointer;display:flex;flex-direction:column;gap:6px;user-select:none;transition:.15s;
+  }
+  .opt-card.sel{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);background:#FBF8FF;}
+  .opt-card .dots{display:flex;gap:6px;}
+  .opt-card .dots i{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.14);display:block;}
+  .opt-card b{font-size:13px;line-height:1.4;}
+  .opt-card .sub{font-size:11.5px;color:var(--muted);line-height:1.45;}
+
+  /* result additions */
+  .part-banner{
+    display:flex;align-items:center;gap:12px;margin:6px -4px 12px;padding:12px 14px;
+    border-radius:14px;color:#fff;
+  }
+  .part-banner.p1{background:linear-gradient(120deg,var(--coral),#FFA25A);}
+  .part-banner.p2{background:linear-gradient(120deg,var(--lavender),var(--sky));}
+  .part-banner small{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;opacity:.92;}
+  .part-banner b{font-family:'Jua',sans-serif;font-size:18px;font-weight:400;}
+  .gauge{margin-bottom:12px;}
+  .gauge-top{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--muted);margin-bottom:5px;}
+  .gauge-top b{color:var(--ink);font-size:13px;}
+  .gauge-track{position:relative;height:10px;border-radius:99px;}
+  .gauge-dot{
+    position:absolute;top:50%;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:3px solid var(--ink);transform:translate(-50%,-50%);
+  }
+  .gauge-ends{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:4px;}
+  .note-box{background:#F7F2FF;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.6;color:#5c4f6e;}
+  .face-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;font-size:12.5px;line-height:1.5;color:#5c4f6e;}
+  .face-badge{
+    flex:none;background:var(--ink);color:#fff;font-family:'Jua',sans-serif;font-size:14px;
+    padding:6px 12px;border-radius:99px;
+  }
+  .lip-card{display:flex;gap:12px;align-items:center;background:#F7F2FF;border-radius:12px;padding:10px 12px;margin-bottom:8px;}
+  .lip-card .dot{width:34px;height:34px;border-radius:50%;flex:none;border:1px solid rgba(0,0,0,.1);}
+  .lip-card b{display:block;font-size:13.5px;color:var(--ink);}
+  .lip-card span{font-size:12.5px;line-height:1.5;color:#5c4f6e;}
+  .small-note{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:6px;}
+  .partial-error{
+    background:#FFF1EE;border:1px solid #FFC9BE;border-radius:14px;padding:12px 14px;
+    font-size:12.5px;color:#B3402A;margin-bottom:12px;line-height:1.6;
+  }
+  .partial-error button{margin-top:8px;border:none;background:var(--ink);color:#fff;border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;font-family:inherit;}
+  button.btn.small{padding:11px 10px;font-size:12.5px;}
+  .chip.disabled{opacity:.5;}
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
 
 <script>
-const state = {
-  step: 0,
-  photoBase64: null,
-  photoMediaType: null,
-  skinTone: '', vein: '', jewelry: '',
-  eyeColor: '', hairColor: '',
-  gender: '', hairStyle: 'bob',
-  q_ei: '', q_sn: '', q_ft: '', q_jp: '', q_stress: '',
-  favColors: '', friendKeyword: '',
-  result: null,
-  error: null
-};
-
-const steps = ['intro','photo','colorinfo','q_ei','q_sn','q_ft','q_jp','q_stress','extra','loading','result'];
-const app = document.getElementById('app');
-
-function go(delta){
-  state.step = Math.min(steps.length-1, Math.max(0, state.step+delta));
-  render();
-}
-function jump(name){ state.step = steps.indexOf(name); render(); }
-
-function progressDots(){
-  // only meaningful for the question flow (steps 1..8)
-  const total = 8, current = state.step; // 1..8
-  let html = '<div class="progress">';
-  for(let i=1;i<=total;i++){
-    let cls = i < current ? 'done' : (i===current ? 'now' : '');
-    html += `<span class="${cls}"></span>`;
-  }
-  html += '</div>';
-  return html;
-}
-
-function render(){
-  stopCamera();
-  const s = steps[state.step];
-  let inner = '';
-  if(s === 'intro'){
-    inner += `<div class="brand"><div class="eyebrow">HUE &amp; ME</div></div>`;
-  } else if(s !== 'result'){
-    inner += `<div class="brand"><div class="eyebrow">HUE &amp; ME</div></div>`;
-  }
-  if(state.step>=1 && state.step<=8) inner += progressDots();
-
-  if(s==='intro') inner += renderIntro();
-  else if(s==='photo') inner += renderPhoto();
-  else if(s==='colorinfo') inner += renderColorInfo();
-  else if(s==='q_ei') inner += renderScenario('E · I | 에너지 사용과 회복', '오전 내내 여러 사람과 함께 일한 뒤 한 시간의 점심시간이 생겼습니다. 누구와 어디에서 어떻게 보내고 싶나요?', 'q_ei');
-  else if(s==='q_sn') inner += renderScenario('S · N | 정보 인식하는 특성', '인상 깊게 본 책이나 영화에 대해 친구에게 소개한다면 전체 의미 또는 구체적 내용, 어떻게 이야기 해줄 건가요?', 'q_sn');
-  else if(s==='q_ft') inner += renderScenario('F · T | 판단과 선택의 기준', '친한 사람이 시험에서 떨어져 속상하다고 합니다. 가장 먼저 어떤 말을 하고, 이후 무엇을 해주고 싶은가요?', 'q_ft');
-  else if(s==='q_jp') inner += renderScenario('J · P | 생활 업무 계획 실행', '아무 약속도 없는 주말, 미리 일정을 정해두고 싶은가요, 당일 기분에 따라 보내고 싶은가요? 어떻게 보내나요?', 'q_jp');
-  else if(s==='q_stress') inner += renderScenario('나를 알아가는 질문', '요즘 스트레스를 받으면 주로 무엇을 하며 푸나요? 아무거나 편하게 적어주세요.', 'q_stress');
-  else if(s==='extra') inner += renderExtra();
-  else if(s==='loading') inner += renderLoading();
-  else if(s==='result') inner += renderResult();
-
-  const cardStyle = s==='result' ? 'display:none' : (s==='intro' ? 'min-height:560px;display:flex;flex-direction:column;' : '');
-  const cardClass = s==='intro' ? 'card intro-card' : 'card';
-  app.innerHTML = `<div class="${cardClass}" style="${cardStyle}">${s==='result'?'':inner}</div>` ;
-  if(s==='result'){
-    app.innerHTML = inner;
-  }
-  attachHandlers();
-  if(s==='photo' && !state.photoBase64) initCamera();
-  saveDraft();
-}
-
-const DRAFT_KEY = 'color_signature_draft';
-
-function saveDraft(){
-  try{
-    if(!window.storage) return;
-    const snapshot = JSON.stringify(state);
-    window.storage.set(DRAFT_KEY, snapshot, false).catch(()=>{});
-  }catch(e){ /* not logged in yet, or storage unavailable — ignore */ }
-}
-
-async function loadDraft(){
-  try{
-    if(window.storage){
-      const res = await window.storage.get(DRAFT_KEY, false);
-      if(res && res.value){
-        const saved = JSON.parse(res.value);
-        Object.assign(state, saved);
-      }
-    }
-  }catch(e){ /* no saved draft — start fresh */ }
-  render();
-  if(steps[state.step] === 'loading'){
-    // was interrupted (e.g. by a login redirect) right as analysis started — resume automatically
-    callClaude();
-  }
-}
-
-function clearDraft(){
-  try{
-    if(window.storage) window.storage.delete(DRAFT_KEY, false).catch(()=>{});
-  }catch(e){}
-}
-
-function renderIntro(){
-  return `
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;">
-    <div class="title-box" style="margin-top:-70px;">
-      <div class="intro-hero" style="text-align:center;margin:0;">퍼스널 컬러로<br>만나는 나의 성향 카드</div>
-    </div>
-    <p class="qhint" style="text-align:center;margin-top:26px;">사진 한 장과 몇 가지 질문으로<br>나만의 색과 성향을 담은 카드를 완성해요.</p>
-  </div>
-  <div class="nav" style="margin-top:0;"><button class="btn primary wide" onclick="go(1)">시작하기</button></div>`;
-}
-
-function renderPhoto(){
-  if(state.photoBase64){
-    return `
-    <div class="step-label">STEP 1 / 8</div>
-    <h2 class="qtitle">이 사진으로 진행할까요?</h2>
-    <p class="qhint">자연광, 민낯, 정면 사진일수록 더 정확해요.</p>
-    <div class="camera-wrap"><img src="data:${state.photoMediaType};base64,${state.photoBase64}" class="camera-preview"></div>
-    <div class="nav">
-      <button class="btn ghost" onclick="retakePhoto()">다시 찍기</button>
-      <button class="btn primary" onclick="go(1)">이 사진으로 진행</button>
-    </div>
-    <div class="skip-link" onclick="skipPhoto()">사진 없이 진행할래요 →</div>`;
-  }
-  return `
-  <div class="step-label">STEP 1 / 8</div>
-  <h2 class="qtitle">얼굴 사진을 찍어주세요</h2>
-  <p class="qhint">자연광에서, 화장이 없는 민낯으로, 정면을 보고 찍어주세요. 스마트폰에서는 카메라 앱이, PC에서는 웹캠(또는 파일 선택)이 열려요.</p>
-  <div class="camera-wrap" id="cameraWrap">
-    <video id="cameraVideo" autoplay playsinline muted class="camera-preview" style="display:none;"></video>
-    <div id="cameraFallback" class="photo-tap" style="width:100%;height:100%;display:none;" onclick="document.getElementById('photoCapture').click()">
-      <div style="text-align:center;color:var(--muted);">
-        <div style="font-size:44px;">📷</div>
-        <div style="font-size:13px;margin-top:6px;">탭해서 촬영하기</div>
-      </div>
-    </div>
-    <div id="cameraLoading" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">카메라를 확인하는 중...</div>
-  </div>
-  <canvas id="captureCanvas" style="display:none;"></canvas>
-  <input type="file" id="photoCapture" accept="image/*" capture="user" style="display:none">
-  <div class="nav">
-    <button class="btn ghost" onclick="go(-1)">이전</button>
-    <button class="btn primary" id="captureBtn" onclick="handleCaptureClick()">📸 촬영하기</button>
-  </div>
-  <div class="skip-link" onclick="skipPhoto()">사진 없이 진행할래요 →</div>`;
-}
-
-let cameraStream = null;
-let cameraMode = null; // 'live' | 'file'
-
-function initCamera(){
-  const video = document.getElementById('cameraVideo');
-  const fallback = document.getElementById('cameraFallback');
-  const loading = document.getElementById('cameraLoading');
-  if(!video) return;
-  cameraMode = null;
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    cameraMode = 'file';
-    if(loading) loading.style.display = 'none';
-    if(fallback) fallback.style.display = 'flex';
-    return;
-  }
-  navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}, audio:false})
-    .then(stream=>{
-      cameraStream = stream;
-      video.srcObject = stream;
-      video.style.display = 'block';
-      if(loading) loading.style.display = 'none';
-      cameraMode = 'live';
-    })
-    .catch(()=>{
-      cameraMode = 'file';
-      if(loading) loading.style.display = 'none';
-      if(fallback) fallback.style.display = 'flex';
-    });
-}
-function stopCamera(){
-  if(cameraStream){
-    cameraStream.getTracks().forEach(t=>t.stop());
-    cameraStream = null;
-  }
-}
-function handleCaptureClick(){
-  if(cameraMode === 'live'){
-    capturePhotoFromVideo();
-  } else {
-    document.getElementById('photoCapture').click();
-  }
-}
-function capturePhotoFromVideo(){
-  const video = document.getElementById('cameraVideo');
-  const canvas = document.getElementById('captureCanvas');
-  if(!video || !video.videoWidth) return;
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-  state.photoMediaType = 'image/jpeg';
-  state.photoBase64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
-  stopCamera();
-  render();
-}
-function retakePhoto(){
-  state.photoBase64 = null;
-  state.photoMediaType = null;
-  render();
-}
-function skipPhoto(){
-  state.photoBase64 = null; state.photoMediaType = null;
-  stopCamera();
-  go(1);
-}
-
-const EYE_COLOR_OPTIONS = [
-  {label:'검정에 가까운 갈색', hex:'#2B1D14'},
-  {label:'짙은 갈색', hex:'#3B2415'},
-  {label:'밝은 갈색', hex:'#6B4423'},
-  {label:'헤이즐(연갈색)', hex:'#9C6B3E'},
-];
-const HAIR_COLOR_OPTIONS = [
-  {label:'흑색', hex:'#17120F'},
-  {label:'흑갈색', hex:'#2C1C14'},
-  {label:'진한 갈색', hex:'#4A2F1F'},
-  {label:'밝은 갈색', hex:'#7A4B28'},
-  {label:'애쉬브라운(회갈색)', hex:'#6B5648'},
-];
-
 const OUTFIT_CATALOG = {
   '여자': {
     '아우터': [
@@ -834,9 +688,8 @@ function colorDist(hexA, hexB){
   }catch(e){ return 999; }
 }
 function findClosestOutfitItem(category, hex, gender){
-  const genderKey = gender === '남자' ? '남자' : (gender === '여자' ? '여자' : null);
-  if(!genderKey) return null;
-  const genderCatalog = OUTFIT_CATALOG[genderKey];
+  const genderKey = (gender === '남자') ? '남자' : '여자';
+  const genderCatalog = OUTFIT_CATALOG[genderKey] || OUTFIT_CATALOG['여자'];
   const list = genderCatalog[category];
   if(!list || !list.length || !hex) return null;
   let best = list[0], bestDist = colorDist(hex, list[0].hex);
@@ -897,66 +750,590 @@ function characterImgHtml(gender){
   return `<img src="${src}" class="character-img" alt="캐릭터">`;
 }
 
-function renderColorInfo(){
-  const chipRow = (name, options, current) => options.map(o =>
-    `<div class="chip ${current===o?'sel':''}" data-field="${name}" data-val="${o}">${o}</div>`).join('');
+/* =====================================================================
+   v2 : PART 1 (퍼스널 컬러 진단) / PART 2 (성향 테스트) 분리 구조
+   ===================================================================== */
 
-  const genderSection = `<div class="field"><label>패션 스타일 추천 기준을 선택해주세요</label>
-      <div class="chiprow">${chipRow('gender', ['여자','남자'], state.gender)}</div>
-      <p class="qhint" style="margin:8px 0 0;">선택한 기준은 헤어스타일과 코디 추천에만 반영돼요.</p>
+function freshState(){
+  return {
+    step: 0,
+    // PART 1 — 사진 / 기본 정보
+    photoBase64: null, photoMediaType: null,
+    gender: '', faceShape: '', hairLen: '', hairTex: '', bangs: '',
+    // PART 1 — 사전 질문지
+    jewelry: '', wantImage: '', closetColor: '', sun: '', favColors: '', tiredColor: '',
+    // PART 1 — 1단계 웜/쿨
+    vein: '', skinTone: '', lipNatural: '', cheekNatural: '', metalDrape: '', drapeWhite: '',
+    // PART 1 — 2단계 계절 색 천 비교
+    drapeRed: '', drapePink: '', drapeYellow: '', drapeBlue: '',
+    // PART 1 — 3단계 톤맵·명도·채도
+    toneBest: '', toneWorst: '', drapeChroma: '', drapeValue: '',
+    // PART 1 — 4단계 대비
+    eyeColor: '', hairColor: '', eyeContrast: '', hairSkinContrast: '', skinLevel: '',
+    // PART 2 — 성향
+    q_ei: '', q_sn: '', q_ft: '', q_jp: '', q_stress: '', friendKeyword: '',
+    // 결과
+    rc: null, rp: null, errC: null, errP: null
+  };
+}
+const state = freshState();
+
+const steps = ['intro','p1intro','photo','basic','survey','warmcool','season','tonemap','contrast',
+               'p2intro','q_ei','q_sn','q_ft','q_jp','q_stress','extra','loading','result'];
+const PART_STEPS = {
+  1: ['photo','basic','survey','warmcool','season','tonemap','contrast'],
+  2: ['q_ei','q_sn','q_ft','q_jp','q_stress','extra']
+};
+const PART_NAME = {1:'퍼스널 컬러', 2:'성향 테스트'};
+const app = document.getElementById('app');
+
+function esc(v){
+  return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function safeHex(h, fallback){
+  return (typeof h === 'string' && /^#[0-9a-fA-F]{6}$/.test(h.trim())) ? h.trim() : (fallback || '#CCCCCC');
+}
+
+function captureInputs(){
+  ['favColors','tiredColor','friendKeyword'].forEach(k=>{
+    const el = document.getElementById(k);
+    if(el) state[k] = el.value;
+  });
+  const id = steps[state.step];
+  const ans = document.getElementById('ans');
+  if(ans && id && id.startsWith('q_')) state[id] = ans.value;
+}
+function go(delta){
+  captureInputs();
+  state.step = Math.min(steps.length-1, Math.max(0, state.step+delta));
+  render();
+}
+function jump(name){
+  captureInputs();
+  state.step = steps.indexOf(name);
+  render();
+}
+
+function progressHtml(id){
+  const part = PART_STEPS[1].includes(id) ? 1 : (PART_STEPS[2].includes(id) ? 2 : 0);
+  if(!part) return '';
+  const list = PART_STEPS[part];
+  const idx = list.indexOf(id);
+  let h = `<div class="progress-label"><span class="part-badge p${part}">PART ${part}</span><span>${PART_NAME[part]} · ${idx+1} / ${list.length}</span></div><div class="progress">`;
+  list.forEach((_, i)=>{ h += `<span class="${i<idx?'done':(i===idx?'now':'')}"></span>`; });
+  return h + '</div>';
+}
+
+function render(keepScroll){
+  stopCamera();
+  const y = window.scrollY;
+  const id = steps[state.step];
+  const brand = `<div class="brand"><div class="eyebrow">HUE &amp; ME</div></div>`;
+  let html = '';
+
+  if(id === 'result'){
+    html = renderResult();
+  } else if(id === 'loading'){
+    html = brand + renderLoading();
+  } else {
+    let body = '';
+    if(id==='intro') body = renderIntro();
+    else if(id==='p1intro') body = renderPartIntro(1);
+    else if(id==='photo') body = renderPhoto();
+    else if(id==='basic') body = renderBasic();
+    else if(id==='survey') body = renderSurvey();
+    else if(id==='warmcool') body = renderWarmCool();
+    else if(id==='season') body = renderSeason();
+    else if(id==='tonemap') body = renderToneMap();
+    else if(id==='contrast') body = renderContrast();
+    else if(id==='p2intro') body = renderPartIntro(2);
+    else if(id==='q_ei') body = renderScenario('E · I | 에너지 사용과 회복', '오전 내내 여러 사람과 함께 일한 뒤 한 시간의 점심시간이 생겼습니다. 누구와 어디에서 어떻게 보내고 싶나요?', 'q_ei');
+    else if(id==='q_sn') body = renderScenario('S · N | 정보 인식하는 특성', '인상 깊게 본 책이나 영화에 대해 친구에게 소개한다면 전체 의미 또는 구체적 내용, 어떻게 이야기 해줄 건가요?', 'q_sn');
+    else if(id==='q_ft') body = renderScenario('F · T | 판단과 선택의 기준', '친한 사람이 시험에서 떨어져 속상하다고 합니다. 가장 먼저 어떤 말을 하고, 이후 무엇을 해주고 싶은가요?', 'q_ft');
+    else if(id==='q_jp') body = renderScenario('J · P | 생활 업무 계획 실행', '아무 약속도 없는 주말, 미리 일정을 정해두고 싶은가요, 당일 기분에 따라 보내고 싶나요? 어떻게 보내나요?', 'q_jp');
+    else if(id==='q_stress') body = renderScenario('나를 알아가는 질문', '요즘 스트레스를 받으면 주로 무엇을 하며 푸나요? 아무거나 편하게 적어주세요.', 'q_stress');
+    else if(id==='extra') body = renderExtra();
+
+    const cardClass = id==='intro' ? 'card intro-card' : 'card';
+    const cardStyle = id==='intro' ? 'min-height:560px;display:flex;flex-direction:column;' : '';
+    html = brand + progressHtml(id) + `<div class="${cardClass}" style="${cardStyle}">${body}</div>`;
+  }
+
+  app.innerHTML = html;
+  attachHandlers();
+  if(id==='photo' && !state.photoBase64) initCamera();
+  if(keepScroll) window.scrollTo(0, y); else window.scrollTo(0, 0);
+  saveDraft();
+}
+
+const DRAFT_KEY = 'color_signature_draft_v2';
+
+function saveDraft(){
+  try{
+    if(!window.storage) return;
+    window.storage.set(DRAFT_KEY, JSON.stringify(state), false).catch(()=>{});
+  }catch(e){}
+}
+async function loadDraft(){
+  try{
+    if(window.storage){
+      const res = await window.storage.get(DRAFT_KEY, false);
+      if(res && res.value) Object.assign(state, JSON.parse(res.value));
+    }
+  }catch(e){}
+  render();
+  if(steps[state.step] === 'loading') runAnalysis();
+}
+function clearDraft(){
+  try{ if(window.storage) window.storage.delete(DRAFT_KEY, false).catch(()=>{}); }catch(e){}
+}
+
+/* ---------- 공통 UI 조각 ---------- */
+function chipRow(name, options){
+  return options.map(o =>
+    `<div class="chip ${state[name]===o?'sel':''}" data-field="${name}" data-val="${esc(o)}">${esc(o)}</div>`).join('');
+}
+function optCards(field, options, cols){
+  return `<div class="opt-grid ${cols===1?'one':''}">` + options.map(o => {
+    const val = o.val || o.label;
+    const dots = o.colors ? `<div class="dots">${o.colors.map(c=>`<i style="background:${c}"></i>`).join('')}</div>` : '';
+    return `<div class="opt-card ${state[field]===val?'sel':''}" data-field="${field}" data-val="${esc(val)}">
+      ${dots}<b>${esc(o.label)}</b>${o.sub?`<span class="sub">${esc(o.sub)}</span>`:''}
     </div>`;
+  }).join('') + `</div>`;
+}
 
-  const hairSection = state.photoBase64
-    ? `<div class="field"><label>지금 머리카락 색 — 색상 견본을 보고 골라보세요</label>
-        <div class="swatch-grid">${swatchRow('hairColor', HAIR_COLOR_OPTIONS, state.hairColor)}</div>
-      </div>`
-    : `<div class="avatar-box">
-        <div class="avatar-preview">${characterImgHtml(state.gender)}</div>
-      </div>
-      <div class="field"><label>머리카락 색 (참고용 — AI 분석에 활용돼요)</label>
-        <div class="swatch-grid">${swatchRow('hairColor', HAIR_COLOR_OPTIONS, state.hairColor)}</div>
-      </div>`;
-
+/* ---------- 인트로 / 파트 소개 ---------- */
+function renderIntro(){
   return `
-  <div class="step-label">STEP 2 / 8</div>
-  <h2 class="qtitle">색 정보를 알려주세요</h2>
-  <p class="qhint">${state.photoBase64 ? '사진과 함께 참고할게요. 아는 만큼만 골라주세요.' : '사진이 없으니 이 정보로 분석할게요. 색상 견본을 보고 가장 비슷한 걸 골라주세요.'}</p>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div class="title-box" style="margin-top:-40px;">
+      <div class="intro-hero" style="text-align:center;margin:0;">퍼스널 컬러로<br>만나는 나의 성향 카드</div>
+    </div>
+    <div class="intro-list" style="width:100%;margin-top:26px;">
+      <div class="row"><div class="dot" style="background:var(--coral)">1</div><div><b>PART 1 · 퍼스널 컬러 진단</b><br>사진 + 전문가 방식 문항으로 나의 톤, 얼굴형·헤어 추천</div></div>
+      <div class="row"><div class="dot" style="background:var(--lavender)">2</div><div><b>PART 2 · 성향 테스트</b><br>상황 질문으로 알아보는 나의 MBTI 스타일 성향</div></div>
+    </div>
+  </div>
+  <div class="nav" style="margin-top:0;"><button class="btn primary wide" onclick="go(1)">시작하기</button></div>`;
+}
 
-  <div class="field"><label>피부 붉은기 / 노란기</label>
-    <div class="chiprow">${chipRow('skinTone', ['붉은기','노란기','중간','모르겠어요'], state.skinTone)}</div>
+function renderPartIntro(part){
+  if(part === 1){
+    return `
+    <div class="part-hero p1">
+      <small>PART 1</small>
+      <h2>퍼스널 컬러 진단</h2>
+      <p>강남·성수 퍼스널 컬러 진단샵의 진단 순서를 참고해, 집·교실에서 해볼 수 있게 만들었어요. 약 7분 걸려요.</p>
+    </div>
+    <div class="crit-list">
+      <div class="crit"><b>사전<br>질문지</b><span>평소 액세서리·옷장 색, 추구하는 이미지 (상담 전 질문지)</span></div>
+      <div class="crit"><b>1단계</b><span>웜 / 쿨 가르기 — 피부 바탕색, 실버·골드 천, 화이트·아이보리</span></div>
+      <div class="crit"><b>2단계</b><span>계절 색 천 비교 — 빨강·핑크·노랑·파랑을 대보며 계절 찾기</span></div>
+      <div class="crit"><b>3단계</b><span>톤맵 — 같은 색을 여러 톤으로 비교해 명도·채도 찾기</span></div>
+      <div class="crit"><b>4단계</b><span>대비 — 눈·머리·피부색의 차이 확인</span></div>
+    </div>
+    <div class="tipbox">
+      <b>준비하면 좋아요 (없으면 '모르겠어요'로 넘어가도 돼요)</b><br>
+      · 창가 자연광(낮 10시~2시) + 거울, 민낯<br>
+      · 흰 종이/흰 옷, 아이보리·크림 옷, 은박지(실버), 금색 종이나 금색 액세서리<br>
+      · 빨강·핑크·노랑·파랑 옷이나 색종이 (주황빛/푸른빛 두 가지씩이면 더 좋아요)<br>
+      · 염색한 머리는 원래 머리색(뿌리)을 기준으로 답해요
+    </div>
+    <div class="nav"><button class="btn ghost" onclick="go(-1)">이전</button><button class="btn primary" onclick="go(1)">PART 1 시작</button></div>`;
+  }
+  return `
+  <div class="done-ribbon">✅ PART 1 완료! 컬러 진단 답변을 모두 받았어요.</div>
+  <div class="part-hero p2">
+    <small>PART 2</small>
+    <h2>성향 테스트</h2>
+    <p>상황 질문 4개와 나를 알아가는 질문으로 MBTI 스타일의 성향을 알아봐요. 약 5분 걸려요.</p>
   </div>
-  <div class="field"><label>손목 혈관 색</label>
-    <div class="chiprow">${chipRow('vein', ['파란색','초록색','구분 안됨'], state.vein)}</div>
+  <div class="crit-list">
+    <div class="crit"><b>정답 없음</b><span>맞고 틀린 답은 없어요. 처음 떠오르는 생각을 편하게 적어주세요.</span></div>
+    <div class="crit"><b>자세히</b><span>한두 문장 이상 적을수록 성향이 더 잘 드러나요.</span></div>
+    <div class="crit"><b>재미로</b><span>공식 심리검사가 아니라, 나를 알아가는 가벼운 활동이에요.</span></div>
   </div>
-  <div class="field"><label>실버 / 골드 중 더 잘 어울리는 쪽</label>
-    <div class="chiprow">${chipRow('jewelry', ['실버','골드','둘 다','모르겠어요'], state.jewelry)}</div>
-  </div>
-  <div class="field"><label>눈동자 색 — 색상 견본을 보고 골라보세요</label>
-    <div class="swatch-grid">${swatchRow('eyeColor', EYE_COLOR_OPTIONS, state.eyeColor)}</div>
-  </div>
-  ${genderSection}
-  ${hairSection}
+  <div class="nav"><button class="btn ghost" onclick="go(-1)">이전</button><button class="btn primary" onclick="go(1)">PART 2 시작</button></div>`;
+}
 
+/* ---------- PART 1 : 사진 ---------- */
+function renderPhoto(){
+  if(state.photoBase64){
+    return `
+    <div class="step-label">PART 1 · 사진</div>
+    <h2 class="qtitle">이 사진으로 진행할까요?</h2>
+    <p class="qhint">이마와 턱선이 잘 보일수록 얼굴형·컬러 진단이 더 정확해요.</p>
+    <div class="camera-wrap"><img src="data:${state.photoMediaType};base64,${state.photoBase64}" class="camera-preview"></div>
+    <div class="nav">
+      <button class="btn ghost" onclick="retakePhoto()">다시 찍기</button>
+      <button class="btn primary" onclick="go(1)">이 사진으로 진행</button>
+    </div>
+    <div class="skip-link" onclick="skipPhoto()">사진 없이 진행할래요 →</div>`;
+  }
+  return `
+  <div class="step-label">PART 1 · 사진</div>
+  <h2 class="qtitle">얼굴 사진을 찍어주세요</h2>
+  <p class="qhint">자연광에서, 화장 없는 민낯으로, 정면을 봐주세요. <b>머리카락은 귀 뒤로 넘겨서 이마와 턱선이 보이게</b> 해주세요. (얼굴형 분석에 써요)</p>
+  <div class="camera-wrap" id="cameraWrap">
+    <video id="cameraVideo" autoplay playsinline muted class="camera-preview" style="display:none;"></video>
+    <div id="cameraFallback" class="photo-tap" style="width:100%;height:100%;display:none;" onclick="document.getElementById('photoCapture').click()">
+      <div style="text-align:center;color:var(--muted);">
+        <div style="font-size:44px;">📷</div>
+        <div style="font-size:13px;margin-top:6px;">탭해서 촬영하기</div>
+      </div>
+    </div>
+    <div id="cameraLoading" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">카메라를 확인하는 중...</div>
+  </div>
+  <canvas id="captureCanvas" style="display:none;"></canvas>
+  <input type="file" id="photoCapture" accept="image/*" capture="user" style="display:none">
   <div class="nav">
     <button class="btn ghost" onclick="go(-1)">이전</button>
-    <button class="btn primary" onclick="goColorInfoNext()">다음</button>
+    <button class="btn primary" id="captureBtn" onclick="handleCaptureClick()">📸 촬영하기</button>
+  </div>
+  <div class="skip-link" onclick="skipPhoto()">사진 없이 진행할래요 →</div>`;
+}
+
+let cameraStream = null;
+let cameraMode = null; // 'live' | 'file'
+
+function initCamera(){
+  const video = document.getElementById('cameraVideo');
+  const fallback = document.getElementById('cameraFallback');
+  const loading = document.getElementById('cameraLoading');
+  if(!video) return;
+  cameraMode = null;
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    cameraMode = 'file';
+    if(loading) loading.style.display = 'none';
+    if(fallback) fallback.style.display = 'flex';
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}, audio:false})
+    .then(stream=>{
+      cameraStream = stream;
+      video.srcObject = stream;
+      video.style.display = 'block';
+      if(loading) loading.style.display = 'none';
+      cameraMode = 'live';
+    })
+    .catch(()=>{
+      cameraMode = 'file';
+      if(loading) loading.style.display = 'none';
+      if(fallback) fallback.style.display = 'flex';
+    });
+}
+function stopCamera(){
+  if(cameraStream){
+    cameraStream.getTracks().forEach(t=>t.stop());
+    cameraStream = null;
+  }
+}
+function handleCaptureClick(){
+  if(cameraMode === 'live') capturePhotoFromVideo();
+  else document.getElementById('photoCapture').click();
+}
+// 사진을 가로세로 최대 800px로 줄여서 JPEG로 저장 (전송이 빠르고 AI 비용도 줄어요)
+function scaleToJpeg(src, w, h, max){
+  const r = Math.min(1, (max||800) / Math.max(w, h));
+  const c = document.createElement('canvas');
+  c.width = Math.round(w*r); c.height = Math.round(h*r);
+  c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', 0.88).split(',')[1];
+}
+function capturePhotoFromVideo(){
+  const video = document.getElementById('cameraVideo');
+  if(!video || !video.videoWidth) return;
+  state.photoMediaType = 'image/jpeg';
+  state.photoBase64 = scaleToJpeg(video, video.videoWidth, video.videoHeight, 800);
+  stopCamera();
+  render();
+}
+function loadPhotoFile(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      state.photoMediaType = 'image/jpeg';
+      state.photoBase64 = scaleToJpeg(img, img.naturalWidth, img.naturalHeight, 800);
+      render();
+    };
+    img.onerror = () => {
+      state.photoMediaType = file.type || 'image/jpeg';
+      state.photoBase64 = String(reader.result).split(',')[1];
+      render();
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+function retakePhoto(){ state.photoBase64 = null; state.photoMediaType = null; render(); }
+function skipPhoto(){ state.photoBase64 = null; state.photoMediaType = null; stopCamera(); go(1); }
+
+/* ---------- PART 1 : 기본 정보 (성별·얼굴형·헤어) ---------- */
+const FACE_SHAPES = [
+  {label:'둥근형', sub:'얼굴 길이와 너비가 비슷하고 턱선이 부드러워요'},
+  {label:'계란형', sub:'이마가 턱보다 조금 넓고 전체적으로 갸름해요'},
+  {label:'긴 얼굴형', sub:'너비보다 길이가 확실히 길어요'},
+  {label:'각진형', sub:'턱뼈·광대가 또렷하고 턱선이 각져요'},
+  {label:'하트형', sub:'이마·광대가 넓고 턱이 뾰족해요'},
+  {label:'모르겠어요', sub:'사진이 있으면 AI가 보고 판단해요'}
+];
+function renderBasic(){
+  const noPhoto = !state.photoBase64;
+  return `
+  <div class="step-label">PART 1 · 기본 정보</div>
+  <h2 class="qtitle">나에 대해 알려주세요</h2>
+  <p class="qhint">코디·헤어 추천에 쓰여요. 아는 만큼만 골라주세요.</p>
+  <div class="field"><label>성별 (코디·스타일 추천에 사용해요) *</label>
+    <div class="chiprow">${chipRow('gender',['여자','남자','선택 안 함'])}</div>
+  </div>
+  ${noPhoto ? `<div class="avatar-box"><div class="avatar-preview">${characterImgHtml(state.gender)}</div></div>` : ''}
+  <div class="field"><label>내 얼굴형은? (거울을 보고 가장 비슷한 쪽)</label>
+    ${optCards('faceShape', FACE_SHAPES, 2)}
+  </div>
+  <div class="field"><label>지금 머리 길이</label>
+    <div class="chiprow">${chipRow('hairLen',['짧은 머리','단발','중간 길이','긴 머리'])}</div>
+  </div>
+  <div class="field"><label>머리카락 결</label>
+    <div class="chiprow">${chipRow('hairTex',['직모','약한 웨이브','곱슬'])}</div>
+  </div>
+  <div class="field"><label>앞머리</label>
+    <div class="chiprow">${chipRow('bangs',['앞머리 있음','앞머리 없음'])}</div>
+  </div>
+  <div class="nav">
+    <button class="btn ghost" onclick="go(-1)">이전</button>
+    <button class="btn primary" ${state.gender?'':'disabled'} onclick="go(1)">다음</button>
   </div>`;
 }
 
-function goColorInfoNext(){
-  if(!['여자','남자'].includes(state.gender)){
-    alert('패션 스타일 추천을 위해 여자 또는 남자를 선택해주세요.');
-    return;
-  }
-  go(1);
+/* ---------- PART 1 : 사전 질문지 ---------- */
+function renderSurvey(){
+  return `
+  <div class="step-label">PART 1 · 사전 질문지</div>
+  <h2 class="qtitle">진단 전 간단한 질문지예요</h2>
+  <p class="qhint">진단샵에서도 상담 전에 이런 질문지를 먼저 써요. 평소 모습 그대로 답해주세요.</p>
+  <div class="field"><label>평소 즐겨 하는 액세서리(귀걸이·반지·시계 등) 색</label>
+    <div class="chiprow">${chipRow('jewelry',['실버','골드','둘 다','액세서리를 안 해요'])}</div>
+  </div>
+  <div class="field"><label>추구하는 이미지</label>
+    <div class="chiprow">${chipRow('wantImage',['청순한','단정한','시크한','귀엽고 발랄한','자연스러운','세련된','부드럽고 따뜻한'])}</div>
+  </div>
+  <div class="field"><label>옷장에 가장 많은 색</label>
+    <div class="chiprow">${chipRow('closetColor',['검정·회색·흰색','베이지·브라운','연한 파스텔','선명한 원색','네이비·와인 같은 진한 색'])}</div>
+  </div>
+  <div class="field"><label>햇볕을 오래 쬐면?</label>
+    <div class="chiprow">${chipRow('sun',['빨개지고 잘 안 그을려요','빨개졌다가 갈색으로 그을려요','쉽게 갈색으로 그을려요','모르겠어요'])}</div>
+  </div>
+  <div class="field"><label>평소에 자꾸 끌리는 색 (선택)</label>
+    <input type="text" id="favColors" value="${esc(state.favColors)}" placeholder="예: 네이비, 라벤더, 화이트">
+  </div>
+  <div class="field"><label>입으면 "피곤해 보인다"는 말을 들은 색 (선택)</label>
+    <input type="text" id="tiredColor" value="${esc(state.tiredColor)}" placeholder="예: 노란색, 연한 베이지">
+  </div>
+  <div class="nav">
+    <button class="btn ghost" onclick="go(-1)">이전</button>
+    <button class="btn primary" onclick="go(1)">다음</button>
+  </div>`;
 }
 
-function renderScenario(title, scenarioText, field){
+/* ---------- PART 1 : 1단계 웜 / 쿨 ---------- */
+const LIP_OPTIONS = [
+  {label:'연한 핑크', hex:'#E8A9B1'},
+  {label:'진한 분홍·장밋빛', hex:'#C96079'},
+  {label:'코랄·살구빛', hex:'#E58A6D'},
+  {label:'베이지·갈색빛', hex:'#B5826C'},
+  {label:'보랏빛·자주빛', hex:'#9A5A78'},
+];
+function swatchRow(name, options, current){
+  let html = options.map(o =>
+    `<div class="chip swatch-chip ${current===o.label?'sel':''}" data-field="${name}" data-val="${esc(o.label)}">
+      <span class="dot" style="background:${o.hex}"></span>${esc(o.label)}
+    </div>`).join('');
+  html += `<div class="chip swatch-chip none ${current==='모르겠어요'?'sel':''}" data-field="${name}" data-val="모르겠어요">
+      <span class="dot"></span>모르겠어요
+    </div>`;
+  return html;
+}
+function renderWarmCool(){
   return `
-  <div class="step-label">STEP ${state.step} / 8</div>
+  <div class="step-label">PART 1 · 1단계 웜 / 쿨 가르기</div>
+  <h2 class="qtitle">피부가 웜인지 쿨인지 찾아요</h2>
+  <p class="qhint">진단샵에서 가장 먼저 하는 단계예요. 피부 바탕(언더톤)이 노란기(웜)인지 푸른기(쿨)인지 가려요.</p>
+
+  <div class="field"><label>손목 안쪽 혈관 색 (자연광에서)</label>
+    <div class="chiprow">${chipRow('vein',['파란색·보라색','초록색','구분 안됨'])}</div>
+  </div>
+  <div class="field"><label>민낯 피부 바탕색 느낌</label>
+    <div class="chiprow">${chipRow('skinTone',['분홍빛(푸른기)','노르스름(황금빛)','올리브(황갈색)','섞여 있어요','모르겠어요'])}</div>
+  </div>
+  <div class="field"><label>맨 입술 색 (립밤·틴트 없이)</label>
+    <div class="swatch-grid">${swatchRow('lipNatural', LIP_OPTIONS, state.lipNatural)}</div>
+  </div>
+  <div class="field"><label>볼이 붉어졌을 때(운동 후, 부끄러울 때) 색</label>
+    <div class="chiprow">${chipRow('cheekNatural',['분홍빛 홍조','살구빛 홍조','홍조가 거의 없어요','모르겠어요'])}</div>
+  </div>
+
+  <div class="tipbox">
+    <b>금속·화이트 드레이핑</b> 목 아래에 대고 얼굴빛을 비교해요. 거울 앞 자연광에서, <b>피부가 고르고 맑아 보이는 쪽</b>, 잡티·그늘이 덜 도드라지는 쪽을 골라요.
+  </div>
+  <div class="qnum">① 실버 vs 골드</div>
+  <div class="qsub">은박지(또는 은색 천·액세서리)와 금색 종이(또는 금색 천·액세서리)를 번갈아 대보세요.</div>
+  ${optCards('metalDrape', [
+    {val:'실버가 더 좋아 보여요', label:'실버', sub:'피부가 맑고 고르게 보여요', colors:['#C9CDD3']},
+    {val:'골드가 더 좋아 보여요', label:'골드', sub:'피부가 화사하고 건강해 보여요', colors:['#D4AF37']},
+    {val:'차이를 모르겠어요', label:'차이를 모르겠어요'}
+  ], 1)}
+  <div class="qnum">② 화이트 vs 아이보리</div>
+  <div class="qsub">흰 종이/흰 옷과 아이보리·크림색 옷을 번갈아 대보세요.</div>
+  ${optCards('drapeWhite', [
+    {val:'순백색(푸른기 흰색)이 더 좋아 보여요', label:'순백색', sub:'얼굴이 맑고 깨끗해 보여요', colors:['#F8F9FC']},
+    {val:'아이보리(노란기 크림색)가 더 좋아 보여요', label:'아이보리', sub:'얼굴이 화사하고 건강해 보여요', colors:['#F5EAD0']},
+    {val:'차이를 모르겠어요', label:'차이를 모르겠어요'}
+  ], 1)}
+
+  <div class="nav">
+    <button class="btn ghost" onclick="go(-1)">이전</button>
+    <button class="btn primary" onclick="go(1)">다음</button>
+  </div>`;
+}
+
+/* ---------- PART 1 : 2단계 계절 색 천 비교 ---------- */
+function renderSeason(){
+  return `
+  <div class="step-label">PART 1 · 2단계 계절 색 천 비교</div>
+  <h2 class="qtitle">같은 색을 두 가지로 대봐요</h2>
+  <div class="tipbox">
+    진단샵에서는 <b>빨강·핑크·노랑·파랑</b> 천을 얼굴 아래에 대며 계절을 정해요. 같은 색이라도 <b>푸른빛(쿨)</b>과 <b>노란·주황빛(웜)</b> 두 가지가 있어요.<br>
+    · 얼굴빛이 살아나고 눈이 또렷해 보이는 쪽을 골라요<br>
+    · 얼굴이 칙칙하거나 옷 색만 튀어 보이는 쪽은 안 맞는 거예요<br>
+    · 화면 색은 기기마다 달라 보이니, 실제 옷·종이로 해보면 더 정확해요
+  </div>
+
+  <div class="qnum">① 빨강</div>
+  ${optCards('drapeRed', [
+    {val:'블루 레드(푸른빛 빨강)가 더 좋아 보여요', label:'블루 레드', sub:'푸른빛이 도는 빨강', colors:['#C8102E']},
+    {val:'오렌지 레드(주황빛 빨강)가 더 좋아 보여요', label:'오렌지 레드', sub:'주황빛이 도는 빨강', colors:['#E8431F']},
+    {val:'차이를 모르겠어요', label:'차이를 모르겠어요'}
+  ], 1)}
+  <div class="qnum">② 핑크</div>
+  ${optCards('drapePink', [
+    {val:'푸른기 핑크(로즈·푸시아)가 더 좋아 보여요', label:'푸른기 핑크', sub:'로즈·푸시아 느낌', colors:['#E0508F','#C2397F']},
+    {val:'코랄 핑크(살구빛 핑크)가 더 좋아 보여요', label:'코랄 핑크', sub:'살구·산호 느낌', colors:['#FF7F7A','#F6A27C']},
+    {val:'차이를 모르겠어요', label:'차이를 모르겠어요'}
+  ], 1)}
+  <div class="qnum">③ 노랑</div>
+  ${optCards('drapeYellow', [
+    {val:'레몬 옐로(푸른빛 노랑)가 더 좋아 보여요', label:'레몬 옐로', sub:'상큼한 연노랑', colors:['#FFEB4D']},
+    {val:'골든 옐로(주황빛 노랑)가 더 좋아 보여요', label:'골든 옐로', sub:'황금빛 노랑·머스타드', colors:['#F2A900','#D9A621']},
+    {val:'차이를 모르겠어요', label:'차이를 모르겠어요'}
+  ], 1)}
+  <div class="qnum">④ 파랑</div>
+  ${optCards('drapeBlue', [
+    {val:'로열 블루(푸른 파랑)가 더 좋아 보여요', label:'로열 블루', sub:'선명하고 차가운 파랑', colors:['#2A55D6','#1B2A6B']},
+    {val:'터콰이즈(청록빛 파랑)가 더 좋아 보여요', label:'터콰이즈', sub:'초록기가 도는 청록', colors:['#16A9A0','#1D7F7A']},
+    {val:'차이를 모르겠어요', label:'차이를 모르겠어요'}
+  ], 1)}
+
+  <div class="nav">
+    <button class="btn ghost" onclick="go(-1)">이전</button>
+    <button class="btn primary" onclick="go(1)">다음</button>
+  </div>`;
+}
+
+/* ---------- PART 1 : 3단계 톤맵 · 명도 · 채도 ---------- */
+const TONE_CARDS = [
+  {label:'비비드 톤', sub:'쨍하고 강렬한', colors:['#E6195E']},
+  {label:'브라이트 톤', sub:'맑고 밝은', colors:['#FF6B94']},
+  {label:'라이트 톤', sub:'연한 파스텔', colors:['#FFC2D4']},
+  {label:'소프트 톤', sub:'부드럽고 포근한', colors:['#E8AEBB']},
+  {label:'더블 톤', sub:'탁하고 차분한', colors:['#C48494']},
+  {label:'딥 톤', sub:'깊고 진한', colors:['#9C1F4D']}
+];
+function renderToneMap(){
+  return `
+  <div class="step-label">PART 1 · 3단계 톤맵 (명도·채도)</div>
+  <h2 class="qtitle">같은 색을 여러 톤으로 비교해요</h2>
+  <div class="tipbox">
+    진단샵의 마지막 단계는 <b>톤맵</b>이에요. 같은 핑크 계열을 <b>선명도와 밝기가 다른 6가지 톤</b>으로 대보며 나에게 맞는 톤을 찾아요.<br>
+    · 분홍/장밋빛 옷·종이를 여러 톤으로 대보세요 (없으면 아래 색 견본을 화면으로 비교해도 돼요)<br>
+    · <b>가장 맑고 생기 있게</b> 보이는 톤 하나, <b>가장 칙칙하거나 색만 튀어 보이는</b> 톤 하나를 골라요
+  </div>
+
+  <div class="qnum">① 얼굴이 가장 살아나는 톤</div>
+  ${optCards('toneBest', TONE_CARDS.map(t=>({...t, val:t.label+' ('+t.sub+')'})), 2)}
+  <div class="qnum">② 얼굴이 가장 칙칙하거나 색만 튀어 보이는 톤</div>
+  ${optCards('toneWorst', TONE_CARDS.map(t=>({...t, val:t.label+' ('+t.sub+')'})), 2)}
+
+  <div class="qnum">③ 선명한 색 vs 부드러운 색 (채도)</div>
+  <div class="qsub">쨍한 원색 옷과 살짝 탁하고 차분한 색 옷을 비교해요.</div>
+  ${optCards('drapeChroma', [
+    {val:'선명한 원색이 더 좋아 보여요', label:'선명한 원색', sub:'얼굴이 또렷하고 생기 있어요', colors:['#E3002B','#0A5BD3','#00A86B']},
+    {val:'부드러운 뮤트톤이 더 좋아 보여요', label:'부드러운 뮤트톤', sub:'얼굴이 편안하고 자연스러워요', colors:['#B8777F','#7F9480','#A79A8B']},
+    {val:'둘 다 비슷해요', label:'둘 다 비슷해요'}
+  ], 1)}
+  <div class="qnum">④ 연한 색 vs 진한 색 (명도)</div>
+  <div class="qsub">연한 파스텔 옷과 깊고 진한 옷을 비교해요.</div>
+  ${optCards('drapeValue', [
+    {val:'연한 파스텔이 더 좋아 보여요', label:'연한 파스텔', sub:'얼굴이 가볍고 화사해요', colors:['#F7C9D4','#C8E3F5','#FFF0B8']},
+    {val:'진하고 깊은 색이 더 좋아 보여요', label:'진하고 깊은 색', sub:'얼굴이 안정감 있고 또렷해요', colors:['#1C2541','#6E1F33','#234F3E']},
+    {val:'둘 다 괜찮아요', label:'둘 다 괜찮아요'}
+  ], 1)}
+
+  <div class="nav">
+    <button class="btn ghost" onclick="go(-1)">이전</button>
+    <button class="btn primary" onclick="go(1)">다음</button>
+  </div>`;
+}
+
+/* ---------- PART 1 : 4단계 대비 ---------- */
+const EYE_COLOR_OPTIONS = [
+  {label:'검정에 가까운 갈색', hex:'#2B1D14'},
+  {label:'짙은 갈색', hex:'#3B2415'},
+  {label:'밝은 갈색', hex:'#6B4423'},
+  {label:'헤이즐(연갈색)', hex:'#9C6B3E'},
+];
+const HAIR_COLOR_OPTIONS = [
+  {label:'흑색', hex:'#17120F'},
+  {label:'흑갈색', hex:'#2C1C14'},
+  {label:'진한 갈색', hex:'#4A2F1F'},
+  {label:'밝은 갈색', hex:'#7A4B28'},
+  {label:'애쉬브라운(회갈색)', hex:'#6B5648'},
+];
+function renderContrast(){
+  return `
+  <div class="step-label">PART 1 · 4단계 대비</div>
+  <h2 class="qtitle">눈·머리·피부의 대비를 봐요</h2>
+  <p class="qhint">대비는 눈동자·머리카락·눈썹과 피부색의 <b>명암 차이</b>예요. 차이가 크면 또렷한 색(봄·겨울), 작으면 부드러운 색(여름·가을)이 어울리는 경향이 있어요.</p>
+  <div class="field"><label>눈동자 색 — 색상 견본을 보고 골라보세요</label>
+    <div class="swatch-grid">${swatchRow('eyeColor', EYE_COLOR_OPTIONS, state.eyeColor)}</div>
+  </div>
+  <div class="field"><label>원래 머리카락 색 (염색했다면 뿌리 쪽 기준)</label>
+    <div class="swatch-grid">${swatchRow('hairColor', HAIR_COLOR_OPTIONS, state.hairColor)}</div>
+  </div>
+  <div class="field"><label>눈동자와 흰자의 대비 (거울로 눈을 가까이 봐요)</label>
+    <div class="chiprow">${chipRow('eyeContrast',['또렷해요(눈동자 진하고 흰자 하얘요)','부드러워요(눈동자가 연하거나 흰자가 탁해요)','모르겠어요'])}</div>
+  </div>
+  <div class="field"><label>머리카락·눈썹과 피부색의 차이</label>
+    <div class="chiprow">${chipRow('hairSkinContrast',['차이가 커요(머리 새까맣고 피부 밝아요)','중간이에요','차이가 작아요(머리와 피부 톤이 비슷해요)','모르겠어요'])}</div>
+  </div>
+  <div class="field"><label>피부 밝기</label>
+    <div class="chiprow">${chipRow('skinLevel',['매우 밝아요','밝은 편','보통','어두운 편'])}</div>
+  </div>
+  <div class="nav">
+    <button class="btn ghost" onclick="go(-1)">이전</button>
+    <button class="btn primary" onclick="go(1)">PART 1 마치기</button>
+  </div>`;
+}
+
+/* ---------- PART 2 : 성향 ---------- */
+function renderScenario(title, scenarioText, field){
+  const idx = PART_STEPS[2].indexOf(field);
+  return `
+  <div class="step-label">PART 2 · 성향 질문 ${idx+1} / 4</div>
   <h2 class="qtitle">${title}</h2>
   <div class="scenario">${scenarioText}</div>
-  <textarea id="ans" placeholder="편하게 떠오르는 대로 적어보세요...">${state[field]}</textarea>
+  <textarea id="ans" placeholder="편하게 떠오르는 대로 적어보세요...">${esc(state[field])}</textarea>
   <div class="nav">
     <button class="btn ghost" onclick="go(-1)">이전</button>
     <button class="btn primary" id="nextBtn" onclick="saveScenario('${field}')">다음</button>
@@ -968,29 +1345,23 @@ function saveScenario(field){
   state[field] = val;
   go(1);
 }
-
 function renderExtra(){
   return `
-  <div class="step-label">STEP 8 / 8 · 선택</div>
+  <div class="step-label">PART 2 · 마지막 · 선택</div>
   <h2 class="qtitle">마지막으로, 선택 질문이에요</h2>
   <p class="qhint">답하지 않아도 괜찮아요.</p>
-  <div class="field"><label>평소에 자꾸 끌리는 색 3가지</label>
-    <input type="text" id="favColors" value="${state.favColors}" placeholder="예: 네이비, 라벤더, 화이트">
-  </div>
   <div class="field"><label>친구들이 나를 표현할 때 자주 쓰는 단어</label>
-    <input type="text" id="friendKeyword" value="${state.friendKeyword}" placeholder="예: 씩씩한, 다정한, 엉뚱한">
+    <input type="text" id="friendKeyword" value="${esc(state.friendKeyword)}" placeholder="예: 씩씩한, 다정한, 엉뚱한">
   </div>
   <div class="nav">
     <button class="btn ghost" onclick="go(-1)">이전</button>
     <button class="btn primary" onclick="finishAndSubmit()">결과 만들기 ✨</button>
   </div>`;
 }
-
 function finishAndSubmit(){
-  state.favColors = document.getElementById('favColors').value;
-  state.friendKeyword = document.getElementById('friendKeyword').value;
+  captureInputs();
   jump('loading');
-  callClaude();
+  runAnalysis();
 }
 
 function renderLoading(){
@@ -1000,136 +1371,201 @@ function renderLoading(){
   </div></div>`;
 }
 
+/* ---------- 결과 화면 ---------- */
+function gauge(title, p, lo, hi, g1, g2){
+  const s = Math.max(0, Math.min(100, Number(p && p.score)));
+  const pos = isNaN(s) ? 50 : s;
+  return `<div class="gauge">
+    <div class="gauge-top"><span>${title}</span><b>${esc((p && p.label) || '-')}</b></div>
+    <div class="gauge-track" style="background:linear-gradient(90deg,${g1},${g2})"><div class="gauge-dot" style="left:${pos}%"></div></div>
+    <div class="gauge-ends"><span>${lo}</span><span>${hi}</span></div>
+  </div>`;
+}
+
 function renderResult(){
-  if(state.error){
-    return `<div class="brand"><div class="eyebrow">HUE &amp; ME</div></div>
-    <div class="card">
-      <div class="error-box">앗, 분석 중 문제가 생겼어요.<br>${state.error}</div>
+  const rc = state.rc, rp = state.rp;
+  const brand = `<div class="brand"><div class="eyebrow">HUE &amp; ME</div></div>`;
+  if(!rc && !rp){
+    return brand + `<div class="card">
+      <div class="error-box">앗, 분석 중 문제가 생겼어요.<br>${esc(state.errC || state.errP || '')}</div>
       <div class="nav"><button class="btn ghost" onclick="jump('extra')">이전으로</button>
-      <button class="btn primary" onclick="jump('loading'); callClaude();">다시 시도</button></div>
+      <button class="btn primary" onclick="retryAnalysis()">다시 시도</button></div>
     </div>`;
   }
-  const r = state.result;
-  if(!r) return renderLoading();
 
-  const swatch = c => `<div class="sw"><div class="dot" style="background:${c.hex}"></div><span>${c.name}</span></div>`;
+  const swatch = c => `<div class="sw"><div class="dot" style="background:${safeHex(c.hex)}"></div><span>${esc(c.name)}</span></div>`;
   const outfitChip = it => {
-    const matched = findClosestOutfitItem(it.category, it.hex, state.gender);
+    const hex = safeHex(it.hex);
+    const matched = findClosestOutfitItem(it.category, hex, state.gender);
     const visual = matched
-      ? `<div class="icon-badge photo-badge"><img src="${matched.src}" class="outfit-thumb" alt="${it.category||''}"></div>`
-      : `<div class="icon-badge" style="background:${it.hex}22;">${clothingIconSVG(it.category, it.hex)}</div>`;
-    return `<div class="sw">${visual}<span>${it.category||''}<br>${it.color_name||it.name||''}</span></div>`;
+      ? `<div class="icon-badge photo-badge"><img src="${matched.src}" class="outfit-thumb" alt="${esc(it.category)}"></div>`
+      : `<div class="icon-badge" style="background:${hex}22;">${clothingIconSVG(it.category, hex)}</div>`;
+    return `<div class="sw">${visual}<span>${esc(it.category)}<br>${esc(it.color_name||it.name||'')}</span></div>`;
   };
-  const heal = r.healing_color || {name:'라벤더',hex:'#B08BFF'};
-  const paletteHexes = (r.best_colors||[]).map(c=>c.hex).join(',') || '#FF6F59,#FFC93F,#2FBE85,#9C7CFF,#3FA7D6';
-  const frameColor = (r.best_colors && r.best_colors[0] && r.best_colors[0].hex) || '#9C7CFF';
-
-  const portraitHtml = state.photoBase64
-    ? `<div class="portrait-frame" style="border-color:${frameColor};"><img src="data:${state.photoMediaType};base64,${state.photoBase64}" class="portrait-img"></div>`
-    : `<div class="portrait-frame avatar-frame" style="border-color:${frameColor};">${characterImgHtml(state.gender)}</div>`;
 
   const SECTION_ACCENTS = ['#FF6F59','#2FBE85','#FFC93F','#9C7CFF','#3FA7D6'];
   let sIdx = 0;
   const sTitle = text => {
-    const c = SECTION_ACCENTS[sIdx % SECTION_ACCENTS.length];
-    sIdx++;
+    const c = SECTION_ACCENTS[sIdx % SECTION_ACCENTS.length]; sIdx++;
     return `<div class="r-section-title" style="background:${c}22;color:${c};border:1.5px solid ${c}55;">${text}</div>`;
   };
 
-  return `
-  <div class="brand"><div class="eyebrow">HUE &amp; ME</div></div>
-  <div class="result-wrap"><div class="result-card" id="resultCard">
-    <div class="palette-strip" style="background:linear-gradient(90deg, ${paletteHexes});"></div>
-    ${portraitHtml}
-    <div class="r-eyebrow" style="text-align:center;">MY PERSONAL COLOR</div>
-    <div class="r-season" style="text-align:center;">${r.season || ''}</div>
-    <div class="r-score" style="display:block;width:fit-content;margin:0 auto 12px;">적합도 ${r.match_score ?? '-'}%</div>
-    <p class="r-reason">${r.reason || ''}</p>
+  const bestHexes = rc ? (rc.best_colors||[]).map(c=>safeHex(c.hex)) : [];
+  const frameColor = bestHexes[0] || '#9C7CFF';
+  const stripGrad = bestHexes.length ? bestHexes.join(',') : '#FF6F59,#FFC93F,#2FBE85,#9C7CFF,#3FA7D6';
 
-    ${sTitle('나를 표현하는 키워드')}
-    <div class="kw-row">${(r.keywords||[]).map(k=>`<span class="kw">${k}</span>`).join('')}</div>
+  /* ----- PART 1 ----- */
+  let part1 = '';
+  if(rc){
+    const portrait = state.photoBase64
+      ? `<div class="portrait-frame" style="border-color:${frameColor};"><img src="data:${state.photoMediaType};base64,${state.photoBase64}" class="portrait-img"></div>`
+      : `<div class="portrait-frame avatar-frame" style="border-color:${frameColor};">${characterImgHtml(state.gender)}</div>`;
+    const prof = rc.profile || {};
+    const face = rc.face_shape || {};
+    const lips = (rc.lip_recommend||[]);
+    part1 = `
+    <div class="part-banner p1"><div><small>PART 1</small><b>퍼스널 컬러 리포트</b></div></div>
+    ${portrait}
+    <div class="r-eyebrow" style="text-align:center;">MY PERSONAL COLOR</div>
+    <div class="r-season" style="text-align:center;">${esc(rc.season)}</div>
+    <div class="r-score" style="display:block;width:fit-content;margin:0 auto 12px;">적합도 ${esc(rc.match_score ?? '-')}%</div>
+    <p class="r-reason">${esc(rc.reason)}</p>
+
+    ${sTitle('컬러 진단 프로필')}
+    ${gauge('① 언더톤', prof.undertone, '쿨 (푸른기)', '웜 (노란기)', '#8FB4FF', '#FFB36B')}
+    ${gauge('② 명도', prof.value, '깊음', '밝음', '#3A2A4A', '#FFF3C4')}
+    ${gauge('③ 채도', prof.chroma, '부드러움', '선명함', '#C9BDB6', '#E5314F')}
+    ${gauge('④ 대비', prof.contrast, '낮음', '높음', '#E9E2F2', '#2A1B3D')}
+    ${rc.profile_note ? `<div class="note-box">${esc(rc.profile_note)}</div>` : ''}
+
+    ${rc.tone_map && (rc.tone_map.best||[]).length ? `
+    ${sTitle('톤맵 (PCCS 톤 기준)')}
+    <div class="kw-row">
+      ${(rc.tone_map.best||[]).map(t=>`<span class="kw" style="background:#E8F8F1;color:#1B7F57;">✔ ${esc(t)} 톤</span>`).join('')}
+      ${(rc.tone_map.soft_avoid||[]).map(t=>`<span class="kw" style="background:#FFF1EE;color:#B3402A;">△ ${esc(t)} 톤은 살짝 아쉬워요</span>`).join('')}
+    </div>
+    ${rc.tone_map.desc ? `<div class="small-note">${esc(rc.tone_map.desc)}</div>` : ''}` : ''}
+
+    ${sTitle('컬러 분위기 키워드')}
+    <div class="kw-row">${(rc.keywords||[]).map(k=>`<span class="kw">${esc(k)}</span>`).join('')}</div>
 
     ${sTitle('잘 어울리는 색')}
-    <div class="swrow">${(r.best_colors||[]).map(swatch).join('')}</div>
+    <div class="swrow">${(rc.best_colors||[]).map(swatch).join('')}</div>
 
     ${sTitle('살짝 아쉬운 색')}
-    <div class="swrow">${(r.less_colors||[]).map(swatch).join('')}</div>
+    <div class="swrow">${(rc.less_colors||[]).map(swatch).join('')}</div>
 
     ${sTitle('추천 헤어컬러')}
-    <div class="swrow">${(r.hair_recommend||[]).map(swatch).join('')}</div>
+    <div class="swrow">${(rc.hair_recommend||[]).map(swatch).join('')}</div>
 
-    ${sTitle('어울리는 헤어스타일')}
-    <div class="style-cards">${(r.hairstyle_recommend||[]).map(h=>`
-      <div class="style-card"><b>${h.name||''}</b><span>${h.desc||''}</span></div>`).join('')}</div>
+    ${sTitle('얼굴형 & 어울리는 헤어스타일')}
+    ${face.type ? `<div class="face-row"><span class="face-badge">${esc(face.type)}</span><span>${esc(face.desc)}</span></div>` : ''}
+    <div class="style-cards">${(rc.hairstyle_recommend||[]).map(h=>`
+      <div class="style-card"><b>${esc(h.name)}</b><span>${esc(h.desc)}</span></div>`).join('')}</div>
 
     ${sTitle('액세서리 추천')}
-    <div class="rank-row">${(r.accessory_rank||[]).map(a=>`
+    <div class="rank-row">${(rc.accessory_rank||[]).map(a=>`
       <div class="rank-card">
         <div class="rank-badge">${a.rank===1?'🥇':'🥈'}</div>
-        <div class="rank-metal">${a.metal||''}</div>
-        <div class="rank-desc">${a.desc||''}</div>
+        <div class="rank-metal">${esc(a.metal)}</div>
+        <div class="rank-desc">${esc(a.desc)}</div>
       </div>`).join('')}</div>
 
+    ${lips.length ? `
+    ${sTitle('립 컬러 참고 (틴트·립밤)')}
+    ${lips.map(l=>`<div class="lip-card"><div class="dot" style="background:${safeHex(l.hex)}"></div><div><b>${esc(l.name)}</b><span>${esc(l.desc)}</span></div></div>`).join('')}
+    <div class="small-note">참고용이에요. 학교 규정에 맞게 활용해요.</div>` : ''}
+
     ${sTitle('코디 추천')}
-    ${r.coordination_concept ? `<div class="concept-tag">✨ ${r.coordination_concept}</div>` : ''}
-    <div class="swrow">${(r.outfit_items||[]).map(outfitChip).join('')}</div>
+    ${rc.coordination_concept ? `<div class="concept-tag">✨ ${esc(rc.coordination_concept)}</div>` : ''}
+    <div class="swrow">${(rc.outfit_items||[]).map(outfitChip).join('')}</div>
 
     ${sTitle('스타일 키워드')}
-    <div class="kw-row">${(r.style_keywords||[]).map(styleKeywordChip).join('')}</div>
+    <div class="kw-row">${(rc.style_keywords||[]).map(styleKeywordChip).join('')}</div>`;
+  }
+
+  /* ----- PART 2 ----- */
+  let part2 = '';
+  if(rp){
+    const heal = rp.healing_color || {name:'라벤더', hex:'#B08BFF'};
+    part2 = `
+    <div class="part-banner p2" style="margin-top:${rc?'26px':'6px'};"><div><small>PART 2</small><b>성향 리포트 (MBTI 스타일)</b></div></div>
+
+    ${sTitle('나를 표현하는 키워드')}
+    <div class="kw-row">${(rp.persona_keywords||[]).map(k=>`<span class="kw">${esc(k)}</span>`).join('')}</div>
 
     ${sTitle('나의 성향 유형')}
-    ${r.mbti_type ? `<div class="mbti-type-badge">${r.mbti_type}</div>` : ''}
-    <div class="mbti-axes">${(r.mbti_axes||[]).map(a=>`
+    ${rp.mbti_type ? `<div class="mbti-type-badge">${esc(rp.mbti_type)}</div>` : ''}
+    <div class="mbti-axes">${(rp.mbti_axes||[]).map(a=>`
       <div class="mbti-axis-row">
-        <div class="mbti-axis-tag">${a.axis||''}</div>
-        <div class="mbti-axis-body"><b>${a.label||a.result||''}</b><span>${a.desc||''}</span></div>
+        <div class="mbti-axis-tag">${esc(a.axis)}</div>
+        <div class="mbti-axis-body"><b>${esc(a.label||a.result)}</b><span>${esc(a.desc)}</span></div>
       </div>`).join('')}</div>
 
     ${sTitle('나의 성향')}
-    <p class="r-p">${r.personality_summary || ''}</p>
+    <p class="r-p">${esc(rp.personality_summary)}</p>
 
     ${sTitle('강점')}
-    <ul class="r-list">${(r.strengths||[]).map(x=>`<li>${x}</li>`).join('')}</ul>
+    <ul class="r-list">${(rp.strengths||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
 
     ${sTitle('스트레스 받을 때 나타나는 모습')}
-    <ul class="r-list">${(r.stress_signs||[]).map(x=>`<li>${x}</li>`).join('')}</ul>
+    <ul class="r-list">${(rp.stress_signs||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
 
     ${sTitle('회복 팁')}
-    <ul class="r-list">${(r.recovery_tips||[]).map(x=>`<li>${x}</li>`).join('')}</ul>
+    <ul class="r-list">${(rp.recovery_tips||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
 
     ${sTitle('힐링 컬러')}
-    <div class="healbox"><div class="dot" style="background:${heal.hex}"></div><div class="r-p">${heal.name} — 마음이 힘들 때 이 색을 곁에 두면 도움이 될 수 있어요.</div></div>
+    <div class="healbox"><div class="dot" style="background:${safeHex(heal.hex,'#B08BFF')}"></div><div class="r-p">${esc(heal.name)} — 마음이 힘들 때 이 색을 곁에 두면 도움이 될 수 있어요.</div></div>
 
-    <div class="quote">"${r.message || ''}"</div>
-    <div class="r-footer">HUE &amp; ME</div>
+    <div class="quote">"${esc(rp.message)}"</div>`;
+  }
+
+  const notice = (!rc || !rp) ? `
+    <div class="partial-error">
+      ${!rc ? 'PART 1 (퍼스널 컬러) 결과를 불러오지 못했어요.' : 'PART 2 (성향) 결과를 불러오지 못했어요.'}<br>
+      ${esc(!rc ? state.errC : state.errP)}<br>
+      <button onclick="retryAnalysis()">없는 부분만 다시 시도</button>
+    </div>` : '';
+
+  const both = rc && rp;
+  return brand + notice + `
+  <div class="result-wrap"><div class="result-card" id="resultCard">
+    <div class="palette-strip" style="background:linear-gradient(90deg, ${stripGrad});"></div>
+    <div id="partColor">${part1}</div>
+    <div id="partPersona">${part2}</div>
+    <div class="r-footer" style="margin-top:18px;">HUE &amp; ME</div>
   </div></div>
 
   <div class="nav" style="margin-top:18px;">
     <button class="btn ghost-light" onclick="resetAll()">다시 만들기</button>
-    <button class="btn primary" onclick="downloadCard()">이미지로 저장</button>
-  </div>`;
+    <button class="btn primary" onclick="downloadCard('resultCard','컬러_시그니처.png')">전체 이미지로 저장</button>
+  </div>
+  ${both ? `<div class="nav" style="margin-top:10px;">
+    <button class="btn ghost-light small" onclick="downloadCard('partColor','PART1_퍼스널컬러.png')">PART 1만 저장</button>
+    <button class="btn ghost-light small" onclick="downloadCard('partPersona','PART2_성향.png')">PART 2만 저장</button>
+  </div>` : ''}`;
 }
 
 function resetAll(){
-  Object.assign(state, {
-    step:0, photoBase64:null, photoMediaType:null,
-    skinTone:'', vein:'', jewelry:'', eyeColor:'', hairColor:'',
-    gender:'', hairStyle:'bob',
-    q_ei:'', q_sn:'', q_ft:'', q_jp:'', q_stress:'',
-    favColors:'', friendKeyword:'', result:null, error:null
-  });
+  Object.assign(state, freshState());
   clearDraft();
   render();
 }
 
-function downloadCard(){
-  const el = document.getElementById('resultCard');
+function downloadCard(elId, filename){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const prev = el.style.cssText;
+  // 부분 저장은 여백과 배경이 보이도록 잠시 패딩을 줘요
+  if(elId !== 'resultCard') el.style.cssText = prev + ';padding:22px;background:#FFFDF9;';
+  const restore = () => { el.style.cssText = prev; };
   html2canvas(el, {backgroundColor:'#FFFDF9', scale:2}).then(canvas=>{
+    restore();
     const link = document.createElement('a');
-    link.download = '컬러_시그니처.png';
+    link.download = filename;
     link.href = canvas.toDataURL('image/png');
     link.click();
-  });
+  }).catch(restore);
 }
 
 function attachHandlers(){
@@ -1137,88 +1573,158 @@ function attachHandlers(){
   if(photoInput){
     photoInput.addEventListener('change', e=>{
       const file = e.target.files[0];
-      if(!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataUrl = reader.result;
-        state.photoMediaType = file.type;
-        state.photoBase64 = dataUrl.split(',')[1];
-        render();
-      };
-      reader.readAsDataURL(file);
+      if(file) loadPhotoFile(file);
     });
   }
-  document.querySelectorAll('.chip').forEach(chip=>{
+  document.querySelectorAll('.chip, .opt-card').forEach(chip=>{
     chip.addEventListener('click', ()=>{
+      captureInputs();
       const field = chip.dataset.field, val = chip.dataset.val;
+      if(!field) return;
       state[field] = val;
-      render();
+      render(true);
     });
   });
 }
 
-function buildPrompt(){
-  const lines = [];
-  lines.push('학생이 아래 정보를 알려줬어요. 이 정보를 바탕으로 퍼스널컬러 분석과 성향 리포트를 만들어주세요.');
-  lines.push('');
-  lines.push('[색 정보]');
-  if(state.photoBase64) lines.push('- 얼굴 사진이 첨부되어 있어요. 사진을 참고해 분석해주세요.');
-  lines.push(`- 피부 붉은기/노란기: ${state.skinTone || '모름'}`);
-  lines.push(`- 손목 혈관 색: ${state.vein || '모름'}`);
-  lines.push(`- 실버/골드 중 더 어울리는 쪽: ${state.jewelry || '모름'}`);
-  lines.push(`- 눈동자 색: ${state.eyeColor || '모름'}`);
-  lines.push(`- 지금 머리카락 색: ${state.hairColor || '모름'}`);
-  lines.push(`- 패션 스타일 추천 기준: ${state.gender === '남자' ? '남성' : '여성'}`);
-  if(state.favColors) lines.push(`- 평소 끌리는 색: ${state.favColors}`);
-  lines.push('');
-  lines.push('[성향 질문 답변]');
-  lines.push(`- (E·I) 점심시간을 어떻게 보내고 싶은지: ${state.q_ei}`);
-  lines.push(`- (S·N) 인상 깊은 책/영화를 소개하는 방식: ${state.q_sn}`);
-  lines.push(`- (F·T) 속상한 친구에게 하는 말/행동: ${state.q_ft}`);
-  lines.push(`- (J·P) 약속 없는 주말을 보내는 방식: ${state.q_jp}`);
-  lines.push(`- 스트레스를 풀 때 하는 것: ${state.q_stress}`);
-  if(state.friendKeyword) lines.push(`- 친구들이 나를 표현하는 단어: ${state.friendKeyword}`);
-  lines.push('');
-  lines.push('위 정보를 종합해서 JSON 스키마에 맞춰 응답해주세요. hair_recommend, hairstyle_recommend, accessory_rank, coordination_concept, outfit_items, mbti_axes, mbti_type도 반드시 포함해주세요.');
-  return lines.join('\n');
+/* ---------- AI 프롬프트 ---------- */
+function v(x){ return x || '모름'; }
+
+function buildColorPrompt(){
+  const L = [];
+  L.push('학생이 퍼스널컬러 진단샵(강남·성수 방식) 순서의 셀프 진단 문항에 답했어요. 이 정보를 바탕으로 퍼스널컬러(12톤) 진단, 톤맵, 얼굴형, 헤어, 컬러 코디 리포트를 만들어주세요.');
+  L.push('');
+  L.push('[기본 정보]');
+  if(state.photoBase64) L.push('- 얼굴 사진이 첨부되어 있어요. 사진을 참고해 분석하고, 얼굴형도 사진으로 판단해주세요.');
+  L.push(`- 성별: ${v(state.gender)}`);
+  L.push(`- 얼굴형(본인 선택): ${v(state.faceShape)}`);
+  L.push(`- 머리 길이: ${v(state.hairLen)} / 머리결: ${v(state.hairTex)} / 앞머리: ${v(state.bangs)}`);
+  L.push('');
+  L.push('[사전 질문지]');
+  L.push(`- 평소 즐겨 하는 액세서리 색: ${v(state.jewelry)}`);
+  L.push(`- 추구하는 이미지: ${v(state.wantImage)}`);
+  L.push(`- 옷장에 가장 많은 색: ${v(state.closetColor)}`);
+  L.push(`- 햇볕을 오래 쬐면: ${v(state.sun)}`);
+  if(state.favColors) L.push(`- 평소 끌리는 색: ${state.favColors}`);
+  if(state.tiredColor) L.push(`- 입으면 피곤해 보인다는 말을 들은 색: ${state.tiredColor}`);
+  L.push('');
+  L.push('[1단계 · 웜/쿨 가르기]');
+  L.push(`- 손목 혈관 색: ${v(state.vein)}`);
+  L.push(`- 민낯 피부 바탕색: ${v(state.skinTone)}`);
+  L.push(`- 맨 입술 색: ${v(state.lipNatural)}`);
+  L.push(`- 볼 홍조 색: ${v(state.cheekNatural)}`);
+  L.push(`- 금속 드레이핑(실버 vs 골드): ${v(state.metalDrape)}`);
+  L.push(`- 화이트 vs 아이보리: ${v(state.drapeWhite)}`);
+  L.push('');
+  L.push('[2단계 · 계절 색 천 비교]');
+  L.push(`- 빨강(블루 레드 vs 오렌지 레드): ${v(state.drapeRed)}`);
+  L.push(`- 핑크(푸른기 vs 코랄): ${v(state.drapePink)}`);
+  L.push(`- 노랑(레몬 vs 골든): ${v(state.drapeYellow)}`);
+  L.push(`- 파랑(로열 블루 vs 터콰이즈): ${v(state.drapeBlue)}`);
+  L.push('');
+  L.push('[3단계 · 톤맵·명도·채도]');
+  L.push(`- 같은 핑크를 6톤으로 비교했을 때 가장 살아나는 톤: ${v(state.toneBest)}`);
+  L.push(`- 가장 칙칙하거나 색만 튀어 보이는 톤: ${v(state.toneWorst)}`);
+  L.push(`- 선명한 색 vs 부드러운 색: ${v(state.drapeChroma)}`);
+  L.push(`- 연한 색 vs 진한 색: ${v(state.drapeValue)}`);
+  L.push('');
+  L.push('[4단계 · 대비]');
+  L.push(`- 눈동자 색: ${v(state.eyeColor)}`);
+  L.push(`- 원래 머리카락 색: ${v(state.hairColor)}`);
+  L.push(`- 눈동자와 흰자의 대비: ${v(state.eyeContrast)}`);
+  L.push(`- 머리카락·눈썹과 피부색 차이: ${v(state.hairSkinContrast)}`);
+  L.push(`- 피부 밝기: ${v(state.skinLevel)}`);
+  L.push('');
+  L.push('위 정보를 종합해 JSON 스키마에 맞춰 응답해주세요. profile, tone_map, face_shape, hairstyle_recommend, accessory_rank, lip_recommend, outfit_items를 반드시 포함해주세요.');
+  return L.join('\n');
 }
 
-const SYSTEM_PROMPT = `당신은 초·중·고 학생들을 위한 친절한 퍼스널컬러 & 성향 분석가입니다.
-학생이 알려준 정보(사진 및/또는 피부·눈동자·머리카락 설명, 성향 질문 답변)를 바탕으로 아래 JSON 스키마에 맞춰 **오직 JSON만** 응답하세요. 코드블록(백틱), 설명, 다른 텍스트를 절대 포함하지 마세요.
+function buildPersonaPrompt(){
+  const L = [];
+  L.push('학생이 아래 성향 질문에 답했어요. 이 답변을 바탕으로 MBTI 스타일 성향 리포트를 만들어주세요.');
+  L.push('');
+  L.push('[성향 질문 답변]');
+  L.push(`- (E·I) 점심시간을 어떻게 보내고 싶은지: ${state.q_ei}`);
+  L.push(`- (S·N) 인상 깊은 책/영화를 소개하는 방식: ${state.q_sn}`);
+  L.push(`- (F·T) 속상한 친구에게 하는 말/행동: ${state.q_ft}`);
+  L.push(`- (J·P) 약속 없는 주말을 보내는 방식: ${state.q_jp}`);
+  L.push(`- 스트레스를 풀 때 하는 것: ${state.q_stress}`);
+  if(state.friendKeyword) L.push(`- 친구들이 나를 표현하는 단어: ${state.friendKeyword}`);
+  L.push('');
+  L.push('위 정보를 종합해서 JSON 스키마에 맞춰 응답해주세요. mbti_axes 4개와 mbti_type을 반드시 포함해주세요.');
+  return L.join('\n');
+}
+
+const COLOR_SYSTEM_PROMPT = `당신은 초·중·고 학생들을 위한 친절하고 전문적인 퍼스널컬러 분석가입니다.
+학생이 알려준 정보(사진 및/또는 진단 문항 답변)를 바탕으로 아래 JSON 스키마에 맞춰 **오직 JSON만** 응답하세요. 코드블록(백틱), 설명, 다른 텍스트를 절대 포함하지 마세요.
+
+진단 방법(한국 퍼스널컬러 진단샵의 순서를 따릅니다):
+- 사전 질문지 → 1단계 웜/쿨 → 2단계 계절 색 천 비교 → 3단계 톤맵(명도·채도) → 4단계 대비 순서로 학생의 답변을 읽고 판정합니다.
+- 12톤 중 하나로 판정합니다: 라이트 스프링, 트루 스프링, 브라이트 스프링, 라이트 서머, 트루 서머, 소프트 서머, 소프트 오텀, 트루 오텀, 딥 오텀, 딥 윈터, 트루 윈터, 브라이트 윈터. season은 "가을 웜톤 (소프트 오텀)" 형식으로 씁니다.
+- 1단계 색온도(웜/쿨)를 가장 먼저 정합니다. 근거: 금속 드레이핑(골드=웜/실버=쿨), 화이트 vs 아이보리(아이보리=웜), 혈관(초록=웜/파랑·보라=쿨), 피부 바탕색, 햇볕 반응(갈색으로 그을림=웜/붉어짐=쿨), 맨 입술·볼 색, 평소 액세서리. 드레이핑 실험과 사진을 설문형 답변보다 높은 가중치로 봅니다.
+- 2단계 계절 색 천 비교(빨강·핑크·노랑·파랑)는 웜/쿨 판정을 확인하고 계절 후보를 좁히는 데 씁니다. 푸른기 쪽(블루 레드, 푸른기 핑크, 레몬 옐로, 로열 블루)이 좋으면 쿨, 주황·노란기 쪽(오렌지 레드, 코랄 핑크, 골든 옐로, 터콰이즈)이 좋으면 웜입니다.
+- 3단계 톤맵으로 명도와 채도를 정합니다. 계절 판정: 웜/쿨을 먼저 나눈 뒤, 가장 크게 기운 축을 봅니다. 명도 축이 크면 밝은 쪽은 봄·여름, 깊은 쪽은 가을·겨울입니다. 채도·대비 축이 크면 높은(선명) 쪽은 봄·겨울, 낮은(부드러움) 쪽은 여름·가을입니다. 색온도가 가장 크게 기운 경우엔 명도로 계절을 가립니다. 세부 톤은 다시 명도와 채도를 보고 정합니다.
+- 4단계 대비는 눈동자-흰자, 머리·눈썹-피부 색 차이로 판단합니다.
+- 톤맵(tone_map)은 PCCS 톤 이름으로 씁니다: 비비드, 브라이트, 스트롱, 딥, 라이트, 소프트, 더블, 다크, 페일, 라이트 그레이시, 그레이시, 다크 그레이시. 학생이 고른 "가장 살아나는 톤"과 "가장 칙칙한 톤" 답변을 우선 참고하되 최종 season과 모순되지 않게 best 2개, soft_avoid 1개를 정합니다.
+- profile의 게이지 점수와 season이 서로 모순되지 않게 합니다. 예: 소프트 오텀이면 언더톤은 웜 쪽, 채도는 부드러움 쪽입니다.
+- profile_note에는 "금속은 골드에서 화사했고, 아이보리와 코랄이 잘 맞았어요…"처럼 학생의 실험 결과나 사진에서 본 근거를 인용해 1~2문장으로 설명합니다.
+- 서로 모순되는 답변이 있으면 드레이핑 실험(금속, 화이트/아이보리, 4색 비교, 톤맵)과 사진을 더 높은 가중치로 봅니다. 사전 질문지의 추구하는 이미지·옷장 색은 코디 추천 방향에만 참고하고 톤 판정에는 쓰지 않습니다.
 
 규칙:
-- 화장품, 염색약 등 외모 관리 제품은 추천하지 않습니다. hair_recommend는 염색을 권하는 게 아니라 "이런 헤어컬러가 이 톤과 잘 어울려요"라는 정보 제공 목적입니다.
-- 외모를 평가하거나 비교하는 표현을 쓰지 않고, 항상 긍정적이고 응원하는 톤을 유지합니다.
-- '아쉬운 색'은 부드럽게, 비난하지 않는 톤으로 씁니다.
-- [성향 질문 답변]에 있는 E·I, S·N, F·T, J·P 4개 질문에 대한 답변을 각각 분석해서, 각 축마다 어느 쪽에 가까운지 mbti_axes에 반드시 채워주세요. 이건 공식 심리 진단이 아니라 "이 답변에서 느껴지는 경향"이라는 가벼운 톤으로, 재미있는 자기이해 활동처럼 표현합니다. 100% 단정("당신은 무조건 E형입니다")이 아니라 "~한 경향이 보여요" 같은 부드러운 표현을 씁니다.
-- outfit_items는 실제 상품이 아니라 "이런 색 계열의 옷/아이템이 잘 어울려요"라는 색상 조합 제안입니다.
-- [색 정보]의 '패션 스타일 추천 기준'은 헤어스타일·코디·스타일 키워드 추천에만 사용하고, 퍼스널컬러 판정이나 성향 분석에는 영향을 주지 않습니다.
-- 패션 스타일 추천 기준이 '남성'이면 hairstyle_recommend, coordination_concept, style_keywords는 남학생이 자연스럽게 활용할 수 있는 방향으로 제안합니다. 치마, 원피스, 하이힐, 뾰족구두 같은 여성형 아이템을 추천하지 않습니다.
-- 패션 스타일 추천 기준이 '여성'이면 hairstyle_recommend, coordination_concept, style_keywords를 여성 스타일 기준으로 자연스럽게 제안합니다.
-- 모든 문장은 짧고 쉬운 한국어로 씁니다.
-- 전체 응답은 2500 토큰 이내로 작성하되, 무엇보다 **완전한 JSON으로 끝까지 마무리하는 것이 최우선**입니다. 분량이 걱정되면 문장을 더 짧게 줄이세요 — 절대로 문자열이나 배열, 객체가 중간에 잘린 채로 끝나면 안 됩니다.
-- 각 문장은 최대한 짧게(15단어 이내) 씁니다. desc, reason, personality_summary 등 설명 필드는 특히 간결하게 씁니다.
-- hex 색상 코드는 실제 그 색에 맞는 정확한 값을 사용합니다.
-- [색 정보]에 "모름"이라고 적힌 항목이 있다면: 사진이 첨부되어 있으면 사진을 최우선으로 판단 근거로 삼습니다. 사진이 없다면, "모름"이 아닌 다른 답변들(눈동자색, 혈관색, 실버/골드 선호 등)로 최대한 합리적으로 추론하되, match_score를 그만큼 보수적으로 낮추고(예: 90%가 아니라 55~65% 등), reason에 "정보가 부족해서 일부는 추정했어요" 같은 뉘앙스를 짧게 넣어 정직하게 알려줍니다. 근거 없이 확신에 찬 표현("정확히 이 톤이에요")은 쓰지 않습니다.
-- 사진이 첨부되어 있고, 텍스트로 답한 피부/눈동자/머리카락 색 정보가 사진에서 실제로 보이는 것과 다르다면: **사진에서 눈으로 보이는 색을 항상 우선**으로 삼아 분석합니다 (사진은 조명 등의 영향을 받을 수 있다는 점을 감안하되, 텍스트 답변보다 신뢰도 높은 근거로 취급합니다). 학생이 "틀렸다"고 지적하거나 답변을 콕 집어 정정하는 표현은 쓰지 않고, 자연스럽게 사진 기준으로 분석 결과를 제시합니다. 사진으로 판단하기 어려운 항목(혈관 색, 실버/골드 선호 등 사진만으로 알 수 없는 것)은 계속 텍스트 답변을 그대로 사용합니다.
-- 화장품(립컬러, 아이섀도우 등) 추천은 절대 하지 않습니다. 학생 대상 앱이므로 색/스타일 정보에만 집중합니다.
-- accessory_rank는 실버/골드 2가지를 이 톤에 더 잘 어울리는 순서대로 순위(1,2)를 매겨 채웁니다. 학생이 "실버"/"골드"/"둘 다"/"모르겠어요" 중 하나를 답했다면 그 답변을 존중하되, 퍼스널컬러 이론상 더 어울리는 쪽을 근거와 함께 설명합니다.
-- hairstyle_recommend는 실제 인물 사진이 아니라 스타일 이름과 짧은 설명만 제공합니다 (예: "롱 스트레이트 - 차분하고 세련된 느낌을 줘요").
+- 외모를 평가하거나 비교하는 표현을 쓰지 않고, 항상 긍정적이고 응원하는 톤을 유지합니다. '아쉬운 색'은 부드럽게, 비난하지 않는 톤으로 씁니다.
+- 사진이 첨부되어 있으면 사진에서 눈으로 보이는 피부·눈·머리카락 색과 얼굴형을 항상 최우선 근거로 삼습니다. 텍스트 답변과 다르더라도 학생이 "틀렸다"는 표현은 쓰지 않고 자연스럽게 사진 기준으로 제시합니다. 사진으로 알 수 없는 항목(혈관 색, 실버/골드 선호, 드레이핑 결과)은 텍스트 답변을 그대로 사용합니다.
+- "모름"이 많거나 사진이 없으면 match_score를 보수적으로 낮추고(예: 55~65), reason에 "정보가 부족해서 일부는 추정했어요" 같은 뉘앙스를 짧게 넣습니다. 근거 없이 확신하는 표현은 쓰지 않습니다.
+- face_shape.type은 "둥근형", "계란형", "긴 얼굴형", "각진형", "하트형", "정보 부족" 중 하나입니다. 사진이 있으면 사진으로 판단하고, 없으면 학생이 고른 얼굴형을 쓰며, 둘 다 없으면 "정보 부족"으로 하고 누구에게나 무난한 스타일을 추천합니다. desc에는 그 얼굴형의 특징과 장점을 긍정적으로 1문장 씁니다.
+- hairstyle_recommend는 얼굴형, 성별, 머리 길이·머리결·앞머리를 함께 고려해 학교생활에서 현실적으로 할 수 있는 스타일 3개를 추천합니다. 얼굴형의 장점을 살리는 방향으로 쓰고, "가려야 한다" "단점을 보완" 같은 표현은 쓰지 않습니다. 실제 사진이 아니라 스타일 이름과 짧은 설명만 제공합니다.
+- hair_recommend는 염색을 권하는 게 아니라 "이런 헤어컬러가 이 톤과 잘 어울려요"라는 정보 제공 목적입니다.
+- lip_recommend는 성별이 "여자"일 때만 3개를 채우고, 그 외(남자, 선택 안 함, 모름)에는 빈 배열 []로 둡니다. 학생 대상이므로 진하고 자극적인 색보다 자연스럽고 은은한 틴트·립밤 색 위주로 추천하고, 제품명·브랜드는 쓰지 않습니다. 맨 입술 색과 어울림을 함께 고려합니다.
+- accessory_rank는 실버/골드 2가지를 이 톤에 더 잘 어울리는 순서대로 순위(1,2)를 매기고, 학생의 답변을 존중하되 퍼스널컬러 이론상 더 어울리는 쪽을 근거와 함께 설명합니다.
+- outfit_items는 실제 상품이 아니라 "이런 색 계열의 옷/아이템이 잘 어울려요"라는 색 조합 제안입니다.
+- 모든 문장은 짧고 쉬운 한국어로 씁니다. 각 문장은 최대한 짧게(15단어 이내) 씁니다.
+- 전체 응답은 3000 토큰 이내로 작성하되, 무엇보다 **완전한 JSON으로 끝까지 마무리하는 것이 최우선**입니다. 분량이 걱정되면 문장을 더 짧게 줄이세요. 문자열·배열·객체가 중간에 잘리면 안 됩니다.
+- hex 색상 코드는 실제 그 색에 맞는 정확한 #RRGGBB 값을 사용합니다.
 
 JSON 스키마:
 {
-  "season": "예: 봄 웜톤 (라이트 스프링)",
+  "season": "예: 가을 웜톤 (소프트 오텀)",
   "match_score": 0-100 사이 정수,
   "reason": "2~3문장 설명",
-  "keywords": ["4~5개의 짧은 형용사"],
-  "best_colors": [{"name":"색이름","hex":"#RRGGBB"} 를 5~6개],
-  "less_colors": [{"name":"색이름","hex":"#RRGGBB"} 를 3~4개],
-  "style_keywords": ["3~4개"],
-  "hair_recommend": [{"name":"헤어컬러 이름","hex":"#RRGGBB"} 를 4~5개, 이 톤에 어울리는 헤어컬러],
-  "hairstyle_recommend": [{"name":"스타일 이름 (예: 롱 스트레이트)","desc":"1문장, 왜 어울리는지"} 를 3개],
-  "accessory_rank": [{"rank":1,"metal":"실버 또는 골드","desc":"1문장, 어울리는 이유"},{"rank":2,"metal":"나머지 하나","desc":"1문장"}],
-  "coordination_concept": "코디 컨셉 한 줄, 예: '모던 오피스룩' 처럼 2~4단어",
-  "outfit_items": [{"category":"상의/아우터/하의/가방/신발 중 하나","color_name":"색이름","hex":"#RRGGBB"} 를 5개, 코디 색 조합 제안],
+  "profile": {
+    "undertone": {"label":"웜 또는 쿨 또는 뉴트럴","score":0-100 정수 (0=완전 쿨, 100=완전 웜)},
+    "value": {"label":"밝음 또는 중간 또는 깊음","score":0-100 정수 (0=깊음, 100=밝음)},
+    "chroma": {"label":"선명 또는 중간 또는 부드러움","score":0-100 정수 (0=부드러움, 100=선명)},
+    "contrast": {"label":"높음 또는 중간 또는 낮음","score":0-100 정수 (0=낮음, 100=높음)}
+  },
+  "profile_note": "1~2문장, 판정 근거",
+  "tone_map": {"best":["PCCS 톤 이름 2개"],"soft_avoid":["PCCS 톤 이름 1개"],"desc":"1문장, 이 톤이 어울리는 이유"},
+  "keywords": ["컬러 분위기를 나타내는 짧은 형용사 4개"],
+  "best_colors": [{"name":"색이름","hex":"#RRGGBB"} 6개],
+  "less_colors": [{"name":"색이름","hex":"#RRGGBB"} 4개],
+  "hair_recommend": [{"name":"헤어컬러 이름","hex":"#RRGGBB"} 4개],
+  "face_shape": {"type":"둥근형|계란형|긴 얼굴형|각진형|하트형|정보 부족 중 하나","desc":"1문장"},
+  "hairstyle_recommend": [{"name":"스타일 이름","desc":"1문장, 왜 어울리는지"} 3개],
+  "accessory_rank": [{"rank":1,"metal":"실버 또는 골드","desc":"1문장"},{"rank":2,"metal":"나머지 하나","desc":"1문장"}],
+  "lip_recommend": [{"name":"립 컬러 이름","hex":"#RRGGBB","desc":"1문장"} 3개, 여자일 때만. 아니면 []],
+  "coordination_concept": "코디 컨셉 2~4단어",
+  "outfit_items": [{"category":"상의/아우터/하의/가방/신발 중 하나","color_name":"색이름","hex":"#RRGGBB"} 5개],
+  "style_keywords": ["3~4개"]
+}`;
+
+const PERSONA_SYSTEM_PROMPT = `당신은 초·중·고 학생들을 위한 친절한 성향 분석가입니다.
+학생이 적은 성향 질문 답변을 바탕으로 아래 JSON 스키마에 맞춰 **오직 JSON만** 응답하세요. 코드블록(백틱), 설명, 다른 텍스트를 절대 포함하지 마세요.
+
+규칙:
+- [성향 질문 답변]의 E·I, S·N, F·T, J·P 4개 질문에 대한 답변을 각각 분석해서, 각 축마다 어느 쪽에 가까운지 mbti_axes에 반드시 채워주세요. 이건 공식 심리 진단이 아니라 "이 답변에서 느껴지는 경향"이라는 가벼운 톤으로, 재미있는 자기이해 활동처럼 표현합니다. 100% 단정("당신은 무조건 E형입니다")이 아니라 "~한 경향이 보여요" 같은 부드러운 표현을 씁니다.
+- 각 축의 desc에는 학생이 쓴 답변에서 근거가 된 내용을 짧게 인용하거나 요약합니다.
+- 답변이 너무 짧거나 애매하면 가장 가까운 쪽으로 정하되 desc에 "답변이 짧아서 조금 추정했어요"라고 짧게 밝힙니다.
+- 외모나 능력을 평가·비교하지 않고, 항상 긍정적이고 응원하는 톤을 유지합니다. 단점도 "이럴 땐 이렇게" 식의 성장 관점으로 씁니다.
+- 모든 문장은 짧고 쉬운 한국어로 씁니다. 각 문장은 최대한 짧게(15단어 이내) 씁니다.
+- 전체 응답은 1500 토큰 이내로 작성하되, **완전한 JSON으로 끝까지 마무리하는 것이 최우선**입니다.
+- hex 색상 코드는 실제 그 색에 맞는 정확한 #RRGGBB 값을 사용합니다.
+
+JSON 스키마:
+{
+  "persona_keywords": ["나를 표현하는 짧은 형용사 4개, 예: 따뜻한, 호기심 많은"],
   "mbti_axes": [
     {"axis":"E · I","result":"E 또는 I","label":"예: 외향형(E)","desc":"1문장, 답변 근거를 짧게"},
     {"axis":"S · N","result":"S 또는 N","label":"예: 직관형(N)","desc":"1문장"},
@@ -1234,83 +1740,104 @@ JSON 스키마:
   "message": "따뜻하고 응원되는 한 줄 메시지"
 }`;
 
-const loadingMsgs = ['AI가 나의 컬러와 성향을 분석하는 중...','색상 팔레트를 고르는 중...','성향 리포트를 정리하는 중...','카드를 예쁘게 꾸미는 중...'];
+const loadingMsgs = ['AI가 나의 컬러와 성향을 분석하는 중...','언더톤·명도·채도를 따져보는 중...','얼굴형에 맞는 헤어스타일을 고르는 중...','성향 리포트를 정리하는 중...','카드를 예쁘게 꾸미는 중...'];
 let loadingTimer = null;
 
 // ⚠️ 배포 시 아래 주소를 실제로 배포한 중계 서버(Worker) 주소로 바꿔주세요.
 const RELAY_SERVER_URL = 'https://patient-wood-76a1.jmj96990.workers.dev';
 
-async function callClaude(){
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function askAI(system, userContent, maxTokens){
+  let lastErr = null;
+  for(let attempt = 0; attempt < 2; attempt++){
+    try{
+      const response = await fetch(RELAY_SERVER_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model:'gpt-4o-mini', // 저렴한 경제형 모델. 필요시 다른 모델명으로 교체 가능
+          max_tokens: maxTokens,
+          response_format:{type:'json_object'},
+          messages:[
+            {role:'system', content: system},
+            {role:'user', content: userContent}
+          ]
+        })
+      });
+      let data;
+      try{ data = await response.json(); }
+      catch(e){ throw new Error('서버 응답을 읽지 못했어요.'); }
+      if(data.error) throw new Error(data.error.message || '서버 오류가 발생했어요.');
+      const raw = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
+      if(!raw) throw new Error('응답을 받지 못했어요.');
+      try{ return JSON.parse(raw); }
+      catch(parseErr){
+        const repaired = repairTruncatedJSON(raw);
+        if(repaired) return repaired;
+        throw parseErr;
+      }
+    }catch(err){
+      lastErr = err;
+      if(attempt === 0) await sleep(2500); // 교실에서 동시 접속이 많을 때를 위해 한 번 더 시도
+    }
+  }
+  throw lastErr;
+}
+
+async function runAnalysis(onlyMissing){
   render();
   let i = 0;
+  clearInterval(loadingTimer);
   loadingTimer = setInterval(()=>{
-    i = (i+1)%loadingMsgs.length;
+    i = (i+1) % loadingMsgs.length;
     const el = document.getElementById('loadingMsg');
     if(el) el.textContent = loadingMsgs[i];
   }, 1600);
 
-  try{
-    const userContent = [{type:'text', text: buildPrompt()}];
-    if(state.photoBase64){
-      userContent.push({
-        type:'image_url',
-        image_url:{ url: `data:${state.photoMediaType};base64,${state.photoBase64}` }
-      });
-    }
+  const needC = !(onlyMissing && state.rc);
+  const needP = !(onlyMissing && state.rp);
+  if(needC){ state.rc = null; state.errC = null; }
+  if(needP){ state.rp = null; state.errP = null; }
 
-    const response = await fetch(RELAY_SERVER_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'gpt-4o-mini', // 저렴한 경제형 모델. 필요시 다른 모델명으로 교체 가능
-        max_tokens:3400,
-        response_format:{type:'json_object'},
-        messages:[
-          {role:'system', content: SYSTEM_PROMPT},
-          {role:'user', content: userContent}
-        ]
-      })
-    });
-    const data = await response.json();
-    if(data.error) throw new Error(data.error.message || '서버 오류가 발생했어요.');
-    const raw = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
-    if(!raw) throw new Error('응답을 받지 못했어요.');
-    let parsed;
-    try{
-      parsed = JSON.parse(raw);
-    }catch(parseErr){
-      // response likely got cut off mid-string/array — try to salvage a valid JSON prefix
-      const repaired = repairTruncatedJSON(raw);
-      if(repaired) parsed = repaired;
-      else throw parseErr;
-    }
-    state.result = parsed;
-    state.error = null;
-  }catch(err){
-    console.error(err);
-    state.error = '잠시 후 다시 시도해주세요. (' + (err.message||'오류') + ')';
-  }finally{
-    clearInterval(loadingTimer);
-    jump('result');
+  const colorContent = [{type:'text', text: buildColorPrompt()}];
+  if(state.photoBase64){
+    colorContent.push({type:'image_url', image_url:{ url: `data:${state.photoMediaType};base64,${state.photoBase64}` }});
   }
+
+  const tasks = [
+    needC ? askAI(COLOR_SYSTEM_PROMPT, colorContent, 4500) : Promise.resolve(state.rc),
+    needP ? askAI(PERSONA_SYSTEM_PROMPT, buildPersonaPrompt(), 2500) : Promise.resolve(state.rp)
+  ];
+  const [c, p] = await Promise.allSettled(tasks);
+  if(needC){
+    if(c.status === 'fulfilled') state.rc = c.value;
+    else { console.error(c.reason); state.errC = '잠시 후 다시 시도해주세요. (' + ((c.reason && c.reason.message) || '오류') + ')'; }
+  }
+  if(needP){
+    if(p.status === 'fulfilled') state.rp = p.value;
+    else { console.error(p.reason); state.errP = '잠시 후 다시 시도해주세요. (' + ((p.reason && p.reason.message) || '오류') + ')'; }
+  }
+  clearInterval(loadingTimer);
+  jump('result');
+}
+function retryAnalysis(){
+  jump('loading');
+  runAnalysis(true);
 }
 
 function repairTruncatedJSON(raw){
-  // Attempt to recover a usable object from a JSON string that was cut off mid-way.
-  // Strategy: trim back to the last complete ",\"key\":" boundary or last closing bracket,
-  // then close any open strings/arrays/objects.
+  // 응답이 중간에 잘렸을 때, 열린 문자열/배열/객체를 닫아서 쓸 수 있는 JSON으로 복구해요.
   let s = raw;
-  // If it ends mid-string (odd number of unescaped quotes after last structural char), cut back to last comma at depth-safe point.
   for(let attempt=0; attempt<30; attempt++){
     try{
       let candidate = s;
-      // balance: count braces/brackets outside of strings
-      let inStr=false, esc=false, depthObj=0, depthArr=0;
+      let inStr=false, esc2=false, depthObj=0, depthArr=0;
       for(let i=0;i<candidate.length;i++){
         const c = candidate[i];
         if(inStr){
-          if(esc){ esc=false; }
-          else if(c==='\\'){ esc=true; }
+          if(esc2){ esc2=false; }
+          else if(c==='\\'){ esc2=true; }
           else if(c==='"'){ inStr=false; }
         } else {
           if(c==='"') inStr=true;
@@ -1324,7 +1851,6 @@ function repairTruncatedJSON(raw){
       candidate += ']'.repeat(Math.max(0,depthArr)) + '}'.repeat(Math.max(0,depthObj));
       return JSON.parse(candidate);
     }catch(e){
-      // trim back to previous comma at top level and retry
       const lastComma = s.lastIndexOf(',');
       if(lastComma < 0) return null;
       s = s.slice(0, lastComma);
@@ -1333,8 +1859,8 @@ function repairTruncatedJSON(raw){
   return null;
 }
 
-
 loadDraft();
+
 </script>
 </body>
 </html>

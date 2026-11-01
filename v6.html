@@ -1083,7 +1083,7 @@ function renderIntro(){
     <button class="btn ghost wide" onclick="startPersonaOnly()">성향 테스트만 해보기</button>
     ${hasLastResult() ? '<button class="btn ghost wide" onclick="openLastResult()">지난 결과 다시 보기</button>' : ''}
   </div>
-  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v8 · 11월 1일</div>`;
+  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v8.1 · 11월 1일</div>`;
 }
 
 function renderPartIntro(part){
@@ -1773,8 +1773,8 @@ function renderResult(){
     part2 = `
     <div class="part-banner p2" style="margin-top:${rc?'26px':'6px'};"><div><small>PERSONALITY</small><b>성향 결과지 (MBTI 스타일)</b></div></div>
 
-    ${sTitle('나를 표현하는 키워드')}
-    <div class="kw-row">${(rp.persona_keywords||[]).map(k=>`<span class="kw">${esc(k)}</span>`).join('')}</div>
+    ${(rp.persona_keywords||[]).length ? `${sTitle('나를 표현하는 키워드')}
+    <div class="kw-row">${rp.persona_keywords.map(k=>`<span class="kw">${esc(k)}</span>`).join('')}</div>` : ''}
 
     ${sTitle('나의 성향 유형')}
     ${rp.mbti_type ? `<div class="mbti-type-badge">${esc(rp.mbti_type)}</div>` : ''}
@@ -1791,6 +1791,7 @@ function renderResult(){
     ${sTitle('나의 성향')}
     <p class="r-p">${esc(rp.personality_summary)}</p>
 
+    ${rp.fallback ? `<div class="partial-error">AI 설명을 불러오지 못해 점수 결과만 보여드려요.<br>${esc(state.errP||'')}<br><button onclick="retryPersona()">AI 설명 다시 받기</button></div>` : `
     ${sTitle('강점')}
     <ul class="r-list">${(rp.strengths||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
 
@@ -1803,7 +1804,8 @@ function renderResult(){
     ${sTitle('힐링 컬러')}
     <div class="healbox"><div class="dot" style="background:${safeHex(heal.hex,'#B08BFF')}"></div><div class="r-p">${esc(heal.name)} — 마음이 힘들 때 이 색을 곁에 두면 도움이 될 수 있어요.</div></div>
 
-    <div class="quote">"${esc(rp.message)}"</div>`;
+`}
+    ${rp.message ? `<div class="quote">"${esc(rp.message)}"</div>` : ''}`;
   }
 
   const notice = (missC || missP) ? `
@@ -2794,6 +2796,18 @@ function buildPersonaPrompt(){
   return L.join('\n');
 }
 
+function fallbackPersona(){
+  const sc = computePersonaScores();
+  return {
+    persona_keywords: [],
+    axis_desc: sc.axes.map(a=>`${a.result===a.a?a.aName:a.bName} 쪽으로 ${a.pct}% ${a.strength} 기울어 있어요.${a.borderline?' 경계에 가까워 상황에 따라 반대쪽도 써요.':''}`),
+    issue_insights: [],
+    personality_summary: `응답 점수로 계산한 유형은 ${sc.type}이에요.`,
+    strengths: [], stress_signs: [], recovery_tips: [], healing_color: null, message: '',
+    fallback: true
+  };
+}
+function retryPersona(){ state.rp = null; state.errP = null; retryAnalysis(); }
 function mergePersona(rep){
   const sc = computePersonaScores();
   const desc = Array.isArray(rep.axis_desc) ? rep.axis_desc : [];
@@ -2924,7 +2938,8 @@ async function runAnalysis(onlyMissing){
   const p = await personaP;
   if(p){
     if(p.ok) state.rp = mergePersona(p.val);
-    else { console.error(p.e); state.errP = '잠시 후 다시 시도해주세요. (' + ((p.e && p.e.message) || '오류') + ')'; }
+    else { console.error(p.e); state.errP = '잠시 후 다시 시도해주세요. (' + ((p.e && p.e.message) || '오류') + ')';
+      if(LK_AXES.every(ax=>LK_ITEMS[ax.key].every(it=>state.lk[it.id]))) state.rp = mergePersona(fallbackPersona()); }
   }
   jump('result');
 }

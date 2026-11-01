@@ -1131,8 +1131,8 @@ function renderPartIntro(part){
 
 
 /* ---------- 개인정보 안내 · 동의 ---------- */
-const OPERATOR_NAME = '[운영자 이름을 입력하세요]';
-const OPERATOR_CONTACT = '[문의 이메일을 입력하세요]';
+const OPERATOR_NAME = '';
+const OPERATOR_CONTACT = 'yetgiworkshop26@gmail.com';
 const SAVE_PREF_KEY = 'color_signature_save_pref_v1';
 function savePref(){ try{ return localStorage.getItem(SAVE_PREF_KEY)==='1'; }catch(e){ return false; } }
 function setSavePref(on){ try{ localStorage.setItem(SAVE_PREF_KEY, on?'1':'0'); if(!on) localStorage.removeItem(LAST_KEY); }catch(e){} }
@@ -1173,7 +1173,7 @@ function showPolicy(){
   el.innerHTML = `
   <div style="background:#fff;width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 18px 28px;font-size:13px;line-height:1.7;color:#2b2140;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><b style="font-size:16px;">개인정보 처리방침</b><button onclick="document.getElementById('policyModal').remove()" style="border:none;background:#eee;border-radius:8px;padding:6px 12px;font-weight:700;">닫기</button></div>
-    <p style="color:#8a7fa0;font-size:12px;">시행일: 2026년 11월 1일 · 운영자: ${esc(OPERATOR_NAME)} · 문의: ${esc(OPERATOR_CONTACT)}</p>
+    <p style="color:#8a7fa0;font-size:12px;">시행일: 2026년 11월 1일 · ${OPERATOR_NAME ? '운영자: '+esc(OPERATOR_NAME)+' · ' : ''}문의: ${esc(OPERATOR_CONTACT)}</p>
     <p><b>1. 처리하는 개인정보 항목</b><br>얼굴 사진(촬영 또는 업로드), 성별, 피부·눈·머리색 등 관찰 답변, 성향 문항 응답과 자유 입력(선택). 이름, 연락처, 주소, 계정 정보는 수집하지 않아요.</p>
     <p><b>2. 처리 목적</b><br>퍼스널 컬러 진단과 성향 결과지 생성, 결과 화면 표시에만 사용해요. 광고, 마케팅, 제3자 제공, AI 학습 목적으로 사용하지 않아요.</p>
     <p><b>3. 국외 이전</b><br>이전받는 자: OpenAI (미국) / 이전 항목: 위 1항의 사진과 답변 / 이전 목적: AI 분석 처리 / 이전 방법: 중계 서버(Cloudflare Workers)를 거친 암호화(HTTPS) 전송 / 보유·이용 기간: OpenAI의 정책에 따라 처리 후 일정 기간 보관될 수 있으며, 이 서비스는 별도로 보관하지 않아요.</p>

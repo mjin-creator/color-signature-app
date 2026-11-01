@@ -651,6 +651,14 @@
   .verdict-row .vpick{font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap;}
   .verdict-row .vpick i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.15);display:inline-block;}
   .verdict-row .vpick.none{color:var(--muted);font-weight:400;}
+  .verdict-row{flex-wrap:wrap;}
+  .vreason{flex-basis:100%;font-size:11.5px;color:#6d6280;line-height:1.5;}
+  .guide-box{background:#FFF8E8;border-radius:12px;padding:11px 13px;margin:10px 0;font-size:12.5px;line-height:1.6;color:#5a4a2c;}
+  .guide-box ul{margin:6px 0 0;padding-left:18px;}
+  .guide-box li{margin-bottom:4px;}
+  .cline{margin-top:8px;} .cline em{display:block;font-style:normal;font-size:11.5px;color:#8a7a5c;margin-bottom:4px;}
+  .cchip{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:999px;padding:3px 9px 3px 5px;margin:0 4px 4px 0;font-size:11.5px;border:1px solid rgba(0,0,0,.08);}
+  .cchip i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.15);display:inline-block;}
   .agree-list{display:flex;flex-direction:column;gap:6px;}
   .agree-row{display:flex;justify-content:space-between;font-size:13px;padding:9px 12px;background:#F7F2FF;border-radius:10px;}
   .shop-link{display:inline-block;margin-top:4px;font-size:11.5px;color:#6b4bd6;text-decoration:underline;}
@@ -1065,7 +1073,7 @@ function renderIntro(){
     <button class="btn ghost wide" onclick="startPersonaOnly()">성향 테스트만 해보기</button>
     ${hasLastResult() ? '<button class="btn ghost wide" onclick="openLastResult()">지난 결과 다시 보기</button>' : ''}
   </div>
-  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v7.1 · 11월 1일</div>`;
+  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v7.2 · 11월 1일</div>`;
 }
 
 function renderPartIntro(part){
@@ -1749,11 +1757,20 @@ function evidenceHtml(d, sTitle){
     <div class="verdict-row">
       <span class="vlabel">${esc(x.label)}</span>
       ${x.picked ? `<span class="vpick"><i style="background:${safeHex(x.hex)}"></i>${esc(x.picked)}</span>` : `<span class="vpick none">차이 없음</span>`}
+      ${x.reason ? `<div class="vreason">${esc(x.reason)}</div>` : ''}
     </div>`).join('');
   const dr = d.judgeFailed ? '<div class="note-box">AI 드레이핑 판정을 불러오지 못했어요.</div>' : `
+    <div class="guide-box"><b>이렇게 비교해 보세요</b>
+      <ul>
+        <li><b>어울리는 색</b>: 얼굴이 맑고 환해 보이고, 피부결이 매끈해 보여요.</li>
+        <li><b>덜 어울리는 색</b>: 얼굴이 칙칙하거나 누렇게·붉게 떠 보이고, 다크서클·잡티가 도드라지거나 옷색만 튀어 보여요.</li>
+        <li>같은 번호의 A·B 두 장을 나란히 보고, 얼굴이 더 좋아 보이는 쪽을 고르면 돼요.</li>
+      </ul>
+    </div>
     ${state.drapeSheet ? `<img class="drape-sheet" src="${state.drapeSheet}" alt="가상 드레이핑 비교 시트">` : ''}
-    <div class="small-note">AI는 색 이름을 모른 채 번호(1A~8B)로만 비교했고, 좌우 위치는 무작위예요.</div>
-    <div class="verdict-list">${rows}</div>`;
+    <div class="small-note">AI는 색 이름을 모른 채 번호(1A~8B)로만 비교했고, 좌우 위치는 무작위예요. 아래는 쌍별로 AI가 고른 색과 이유예요.</div>
+    <div class="verdict-list">${rows}</div>
+    ${drapeSummaryHtml(d)}`;
   return `
     ${sTitle('진단 근거 ① 사진 피부색 측정')}
     ${measHtml}
@@ -1766,6 +1783,31 @@ function evidenceHtml(d, sTitle){
       <div class="agree-row"><span>관찰 답변</span><b>${sgn(d.groups.answer)}</b></div>
     </div>
     <div class="small-note">셀프 진단은 조명·화면·사진 품질의 영향을 받아요. 정확한 진단은 전문 샵에서 받아보세요.</div>`;
+}
+
+function drapeSummaryHtml(d){
+  const fit=[], bad=[];
+  let warm=0, cool=0, vivid=0, muted=0, light=0, deep=0;
+  d.verdicts.forEach(v=>{
+    const pr = DRAPES.find(x=>x.id===v.id); if(!pr || !v.picked) return;
+    const pickedSide = pr.a.name===v.picked ? pr.a : pr.b;
+    const otherSide = pickedSide===pr.a ? pr.b : pr.a;
+    fit.push(pickedSide); bad.push(otherSide);
+    const t=pickedSide.tone;
+    if(t==='warm') warm++; else if(t==='cool') cool++; else if(t==='vivid') vivid++; else if(t==='muted') muted++; else if(t==='light') light++; else if(t==='deep') deep++;
+  });
+  if(!fit.length) return '';
+  const chips = arr => arr.map(c=>`<span class="cchip"><i style="background:${safeHex(c.hex)}"></i>${esc(c.name)}</span>`).join('');
+  const lines=[];
+  if(warm+cool) lines.push(`<li>따뜻한 색과 차가운 색을 비교한 ${warm+cool}쌍에서 <b>따뜻한 색 ${warm}번 · 차가운 색 ${cool}번</b>을 골랐어요 → ${warm>cool?'<b>웜(노란기) 쪽</b>이 더 잘 받아요.':(cool>warm?'<b>쿨(푸른기) 쪽</b>이 더 잘 받아요.':'웜과 쿨이 비슷해 뚜렷하게 갈리지 않아요.')}</li>`);
+  if(vivid+muted) lines.push(`<li>선명함 vs 탁함에서 <b>${vivid?'선명한 색':'탁하고 차분한 색'}</b>이 더 잘 어울렸어요.</li>`);
+  if(light+deep) lines.push(`<li>밝기에서는 <b>${light?'연하고 밝은 색':'깊고 진한 색'}</b>이 더 잘 어울렸어요.</li>`);
+  return `<div class="guide-box"><b>그래서, 이렇게 읽어요</b>
+    <ul>${lines.join('')}</ul>
+    <div class="cline"><em>더 잘 어울린 색</em>${chips(fit)}</div>
+    <div class="cline"><em>상대적으로 덜 어울린 색</em>${chips(bad)}</div>
+    <div class="small-note" style="margin-top:6px;">이 판정과 피부 측정·관찰 답변을 합쳐 아래 최종 톤이 정해져요. 사진 조명이 노랗거나 화장·필터를 쓰면 흔들릴 수 있어요.</div>
+  </div>`;
 }
 function ohLink(q){
   return `<a class="shop-link" data-html2canvas-ignore="true" href="https://www.oliveyoung.co.kr/store/search/getSearchMain.do?query=${encodeURIComponent(q)}" target="_blank" rel="noopener">올리브영에서 찾아보기 ↗</a>`;
@@ -2224,13 +2266,18 @@ function computeClothMask(img, g){
     const med=a=>{ a.sort((p,q)=>p-q); return a[a.length>>1]; };
     const sL=med(Ls), sA=med(As), sB=med(Bs);
     // 옷 후보: 피부가 아니고 옷 색과 비슷한 픽셀, 소매까지 이어지도록 씨앗(아래 가운데)에서 번져 나가요
-    const cand=new Uint8Array(N), wcap=Math.min(PW, g.fw*PW*2.2);
+    // 배경이 단색이면 어깨 윗부분까지 넓게, 무늬가 있으면 보수적으로
+    let bs=0, bq=0, bn=0;
+    for(let y=0;y<14;y++) for(let x=0;x<PW;x++){ const L=lab[(y*PW+x)*3]; bs+=L; bq+=L*L; bn++; }
+    const plainBg = Math.sqrt(Math.max(0,bq/bn-(bs/bn)*(bs/bn))) < 7;
+    const slope = plainBg ? 0.08 : 0.42;
+    const cand=new Uint8Array(N), wcap=Math.min(PW, g.fw*PW*(plainBg?3.0:2.2));
     const y0=Math.max(0,Math.round(yStart));
     for(let y=y0;y<PH;y++){
       const xa=Math.max(0,Math.round(xc-wcap)), xb=Math.min(PW-1,Math.round(xc+wcap));
       for(let x=xa;x<=xb;x++){
         const i=y*PW+x; if(skin[i]) continue;
-        if(y < yStart + 0.42*Math.max(0, Math.abs(x-xc)-nh*1.3)) continue; // 어깨선 위쪽(배경)은 제외
+        if(y < yStart + slope*Math.max(0, Math.abs(x-xc)-nh*1.3)) continue; // 어깨선 위쪽(배경)은 제외
         const dl=(lab[i*3]-sL)*0.6, da=lab[i*3+1]-sA, db=lab[i*3+2]-sB;
         if(Math.sqrt(dl*dl+da*da+db*db)<19) cand[i]=1;
       }

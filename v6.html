@@ -1044,7 +1044,7 @@ function renderIntro(){
     <button class="btn primary wide" onclick="startColor()">퍼스널 컬러 진단 시작</button>
     <button class="btn ghost wide" onclick="startPersonaOnly()">성향 테스트만 해보기</button>
   </div>
-  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v6 · 11월 1일</div>`;
+  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v6.1 · 11월 1일</div>`;
 }
 
 function renderPartIntro(part){
@@ -1969,7 +1969,7 @@ function locateFace(img){
     for(let y=Math.max(0,Math.round(chin-0.35*fh)); y<=Math.min(H-1,Math.round(chin+0.1*fh)); y++) for(let x=0;x<W;x++) if(comp[y*W+x]===best.id){ const i=(y*W+x)*4; kr+=d[i]; kg+=d[i+1]; kb+=d[i+2]; kn++; }
     const skin=kn? `${Math.round(kr/kn)},${Math.round(kg/kn)},${Math.round(kb/kn)}` : null;
     const g={ok:true, skin, xc:xc/W, yT:yT/H, chin:chin/H, fh:fh/H, fw:wmax/W, nw:nw/W, shoulder:null};
-    if(g.fw<0.12||g.fw>0.75||g.fh<0.12||g.fh>0.6||g.xc<0.2||g.xc>0.8||g.chin>0.85) return FACE_FALLBACK;
+    if(g.fw<0.12||g.fw>0.75||g.fh<0.16||g.fh>0.6||g.xc<0.2||g.xc>0.8||g.chin>0.85||g.chin<0.42) return FACE_FALLBACK;
 
     // 어깨선: 위쪽 모서리 배경색과 다른 첫 지점
     const labAt=(x,y)=>{ const i=(y*W+x)*4; return rgb2lab(d[i],d[i+1],d[i+2]); };
@@ -1979,7 +1979,10 @@ function locateFace(img){
     const spread=Math.hypot(b1.L-b2.L, b1.a-b2.a, b1.b-b2.b);
     const yS=Math.round(chin+0.2*fh);
     const sh=new Array(W).fill(null);
-    if(spread<18 && yS<H-6){
+    let bsum=0, bsq=0, bn=0;
+    for(let y=0;y<8;y++) for(let x=0;x<W;x++){ const q=labAt(x,y); bsum+=q.L; bsq+=q.L*q.L; bn++; }
+    const bstd=Math.sqrt(Math.max(0,bsq/bn-(bsum/bn)*(bsum/bn)));
+    if(spread<18 && bstd<9 && yS<H-6){
       for(let x=0;x<W;x++){
         let run=0;
         for(let y=yS;y<H;y++){
@@ -2051,10 +2054,12 @@ function necklineSpec(style, xc, yNs, fh, nh, fwPx){
 
 // 내 얼굴·목·어깨 위치에 맞춰 옷을 입혀요
 function drawGarment(ctx, ox, oy, PW, PH, g, style, hex, metal){
-  const fh=g.fh*PH, xc=ox+g.xc*PW;
+  const fh=Math.min(g.fh*PH, PH*0.27), xc=ox+g.xc*PW;
   const nh=Math.max(g.nw*PW*0.5, PW*0.06);
-  const yNs=Math.min(oy+(g.chin+0.50*g.fh)*PH, oy+PH*0.9);
+  const yNs=clamp(oy+(g.chin+0.50*g.fh)*PH, oy+PH*0.66, oy+PH*0.78);
+  const minEdge=oy+Math.min(Math.max((g.chin+0.12*g.fh)*PH, PH*0.58), PH*0.72);
   const sp=necklineSpec(style, xc, yNs, fh, nh, g.fw*PW);
+  sp.yL=Math.max(sp.yL,minEdge-0.02*fh); sp.yR=sp.yL;
 
   // 어깨선 (옷 윗선): 실제 어깨 위치를 따라가고, 바깥으로 갈수록 내려가요
   const cols=Math.round(PW);
@@ -2069,7 +2074,7 @@ function drawGarment(ctx, ox, oy, PW, PH, g, style, hex, metal){
       const dx=Math.abs(x-xc)-nh;
       y=sp.yL+0.10*fh+0.45*fh*Math.pow(clamp(dx/(PW*0.55),0,1),1.2);
     }
-    edge[i]=Math.max(y, sp.yL-0.02*fh);
+    edge[i]=Math.max(y, sp.yL-0.02*fh, minEdge);
   }
   // 목에서 바깥쪽으로 갈수록 아래로만 내려가게 + 부드럽게
   const iC=Math.round(xc-ox);

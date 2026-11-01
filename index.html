@@ -431,6 +431,20 @@
     margin-bottom:12px;
   }
   .mbti-axes{display:flex;flex-direction:column;gap:8px;}
+  .strength{font-style:normal;font-size:11px;font-weight:700;color:var(--lavender);margin-left:4px;}
+  .mbti-axis-body{flex:1;min-width:0;}
+  .axis-bar{width:100%;height:8px;background:#ece6f8;border-radius:99px;position:relative;margin:7px 0 3px;overflow:hidden;}
+  .axis-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,#B08BFF,#FF8FA3);}
+  .axis-ends{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-bottom:5px;}
+  .issue-list{display:flex;flex-direction:column;gap:8px;}
+  .issue-card{background:#FFF8E8;border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.6;color:#4a3d28;}
+  .issue-card b{display:block;margin-bottom:2px;}
+  .lk-item{margin:12px 0;padding:12px;background:#F7F2FF;border-radius:12px;}
+  .lk-q{font-size:14px;line-height:1.6;color:#2b2140;}
+  .lk-scale{display:flex;gap:6px;margin-top:10px;}
+  .lk-btn{flex:1;height:42px;border-radius:999px;border:1.5px solid #d9d2e6;background:#fff;font-weight:700;font-size:15px;color:#8a7fa0;cursor:pointer;}
+  .lk-btn.sel{background:var(--lavender);border-color:var(--lavender);color:#fff;}
+  .lk-ends{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:5px;}
   .mbti-axis-row{
     display:flex;align-items:flex-start;gap:10px;
     background:#F7F2FF;border-radius:12px;padding:10px 12px;
@@ -893,7 +907,7 @@ function freshState(){
     // PART 1 — 4단계 대비
     eyeColor: '', hairColor: '', eyeContrast: '', hairSkinContrast: '', skinLevel: '',
     // PART 2 — 성향
-    q_ei: '', q_sn: '', q_ft: '', q_jp: '', q_stress: '', friendKeyword: '',
+    lk: {}, q_stress: '', currentIssue: '', friendKeyword: '',
     // 진단 (측정 + AI 드레이핑 판정 + 점수 계산)
     diag: null, drapeSheet: '',
     // 어떤 테스트를 하는지 (컬러 / 성향 각각 선택)
@@ -905,10 +919,10 @@ function freshState(){
 const state = freshState();
 
 const steps = ['intro','p1intro','photo','basic','survey','beauty','observe','choice',
-               'p2intro','q_ei','q_sn','q_ft','q_jp','q_stress','extra','loading','result'];
+               'p2intro','q_ei','q_sn','q_ft','q_jp','q_id','extra','loading','result'];
 const PART_STEPS = {
   1: ['photo','basic','survey','beauty','observe'],
-  2: ['q_ei','q_sn','q_ft','q_jp','q_stress','extra']
+  2: ['q_ei','q_sn','q_ft','q_jp','q_id','extra']
 };
 const PART_NAME = {1:'퍼스널 컬러', 2:'성향 테스트'};
 const app = document.getElementById('app');
@@ -929,7 +943,7 @@ function beautyMode(){
   return '';
 }
 function captureInputs(){
-  ['favColors','tiredColor','friendKeyword'].forEach(k=>{
+  ['favColors','tiredColor','friendKeyword','q_stress','currentIssue'].forEach(k=>{
     const el = document.getElementById(k);
     if(el) state[k] = el.value;
   });
@@ -980,11 +994,7 @@ function render(keepScroll){
     else if(id==='observe') body = renderObserve();
     else if(id==='choice') body = renderChoice();
     else if(id==='p2intro') body = renderPartIntro(2);
-    else if(id==='q_ei') body = renderScenario('E · I | 에너지 사용과 회복', '오전 내내 여러 사람과 함께 일한 뒤 한 시간의 점심시간이 생겼습니다. 누구와 어디에서 어떻게 보내고 싶나요?', 'q_ei');
-    else if(id==='q_sn') body = renderScenario('S · N | 정보 인식하는 특성', '인상 깊게 본 책이나 영화에 대해 지인에게 소개한다면 전체 의미 또는 구체적 내용, 어떻게 이야기 해줄 건가요?', 'q_sn');
-    else if(id==='q_ft') body = renderScenario('F · T | 판단과 선택의 기준', '친한 사람이 중요한 일이 잘 풀리지 않아 속상하다고 합니다. 가장 먼저 어떤 말을 하고, 이후 무엇을 해주고 싶은가요?', 'q_ft');
-    else if(id==='q_jp') body = renderScenario('J · P | 생활 업무 계획 실행', '아무 약속도 없는 주말, 미리 일정을 정해두고 싶은가요, 당일 기분에 따라 보내고 싶나요? 어떻게 보내나요?', 'q_jp');
-    else if(id==='q_stress') body = renderScenario('나를 알아가는 질문', '요즘 스트레스를 받으면 주로 무엇을 하며 푸나요? 아무거나 편하게 적어주세요.', 'q_stress');
+    else if(id.startsWith('q_')) body = renderLikert(id);
     else if(id==='extra') body = renderExtra();
 
     const cardClass = id==='intro' ? 'card intro-card' : 'card';
@@ -1065,7 +1075,7 @@ function renderIntro(){
     </div>
     <div class="intro-list" style="width:100%;margin-top:26px;">
       <div class="row"><div class="dot" style="background:var(--coral)">1</div><div><b>퍼스널 컬러 진단</b><br>내 사진의 피부색을 측정하고 가상 드레이핑으로 12톤 진단, 여성은 색조 화장품·남성은 스타일 추천 (약 8분)</div></div>
-      <div class="row"><div class="dot" style="background:var(--lavender)">2</div><div><b>성향 테스트 (선택)</b><br>일상 질문으로 알아보는 MBTI 스타일 성향. 컬러 진단 뒤에 추가하거나 따로 할 수 있어요 (약 5분)</div></div>
+      <div class="row"><div class="dot" style="background:var(--lavender)">2</div><div><b>성향 테스트 (선택)</b><br>요즘 이슈 상황 25문항으로 알아보는 5축 성향(정도 %까지). 컬러 진단 뒤에 추가하거나 따로 할 수 있어요 (약 6분)</div></div>
     </div>
   </div>
   <div class="nav" style="margin-top:0;flex-direction:column;">
@@ -1073,7 +1083,7 @@ function renderIntro(){
     <button class="btn ghost wide" onclick="startPersonaOnly()">성향 테스트만 해보기</button>
     ${hasLastResult() ? '<button class="btn ghost wide" onclick="openLastResult()">지난 결과 다시 보기</button>' : ''}
   </div>
-  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v7.2 · 11월 1일</div>`;
+  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v8 · 11월 1일</div>`;
 }
 
 function renderPartIntro(part){
@@ -1105,12 +1115,12 @@ function renderPartIntro(part){
   <div class="part-hero p2">
     <small>성향 테스트</small>
     <h2>성향 테스트</h2>
-    <p>일상 상황 질문 4개와 나를 알아가는 질문으로 MBTI 스타일의 성향을 알아봐요. 약 5분 걸려요.</p>
+    <p>요즘 우리가 실제로 겪는 상황(AI 업무, 재택·번아웃, SNS 비교, 물가와 소비 등) 25문항에 '전혀 아니다 ~ 매우 그렇다' 5단계로 답하면, 5개 축의 성향을 정도(%)까지 보여드려요. 약 6분 걸려요.</p>
   </div>
   <div class="crit-list">
-    <div class="crit"><b>정답 없음</b><span>맞고 틀린 답은 없어요. 처음 떠오르는 생각을 편하게 적어주세요.</span></div>
-    <div class="crit"><b>자세히</b><span>한두 문장 이상 적을수록 성향이 더 잘 드러나요.</span></div>
-    <div class="crit"><b>재미로</b><span>공식 심리검사가 아니라, 나를 알아가는 가벼운 활동이에요.</span></div>
+    <div class="crit"><b>5단계<br>응답</b><span>흑백으로 가르지 않아요. '그런 편이다'처럼 정도를 골라서 성향의 세기까지 알 수 있어요.</span></div>
+    <div class="crit"><b>5개 축</b><span>에너지(E·I), 정보(S·N), 판단(T·F), 생활(J·P), 정서 안정(A·T)을 축마다 5문항씩 물어요.</span></div>
+    <div class="crit"><b>점수 계산</b><span>유형은 AI가 아니라 응답 점수로 계산하고, AI는 그 결과를 풀어서 설명해요. 공식 심리검사는 아니에요.</span></div>
   </div>
   <div class="nav"><button class="btn ghost" onclick="backFromPersona()">이전</button><button class="btn primary" onclick="go(1)">성향 테스트 시작</button></div>`;
 }
@@ -1127,10 +1137,10 @@ function renderChoice(){
   return `
   <div class="done-ribbon">✅ 컬러 진단 답변을 모두 받았어요.</div>
   <h2 class="qtitle">결과지를 받을까요?</h2>
-  <p class="qhint">성향 테스트(약 5분)는 선택이에요. 지금은 컬러 결과지만 받아도 되고, 결과 화면에서 나중에 추가할 수도 있어요.</p>
+  <p class="qhint">성향 테스트(약 6분)는 선택이에요. 지금은 컬러 결과지만 받아도 되고, 결과 화면에서 나중에 추가할 수도 있어요.</p>
   <div class="nav" style="flex-direction:column;">
     <button class="btn primary wide" onclick="finishAndSubmit()">컬러 결과지 받기</button>
-    <button class="btn ghost wide" onclick="startPersonaFromChoice()">성향 테스트도 해보기 (약 5분)</button>
+    <button class="btn ghost wide" onclick="startPersonaFromChoice()">성향 테스트도 해보기 (약 6분)</button>
   </div>
   <div class="skip-link" onclick="jump('observe')">← 이전 질문으로</div>`;
 }
@@ -1493,29 +1503,109 @@ function swatchRow(name, options, current){
 }
 
 /* ---------- PART 2 : 성향 ---------- */
-function renderScenario(title, scenarioText, field){
-  const idx = PART_STEPS[2].indexOf(field);
+
+/* 5축 × 5문항. pole = 그렇다고 답할수록 가까워지는 쪽 */
+const LK_AXES = [
+  {step:'q_ei', key:'EI', a:'E', b:'I', aName:'외향(E)', bName:'내향(I)', title:'에너지 | 사람 속에서 충전? 혼자서 충전?', desc:'사람들과의 관계에서 에너지를 어떻게 쓰고 회복하는지 봐요.'},
+  {step:'q_sn', key:'SN', a:'S', b:'N', aName:'현실·감각(S)', bName:'직관·가능성(N)', title:'정보 | 사실과 경험? 의미와 가능성?', desc:'새로운 정보를 어떻게 받아들이는지 봐요.'},
+  {step:'q_ft', key:'TF', a:'T', b:'F', aName:'사고(T)', bName:'감정(F)', title:'판단 | 논리와 원칙? 사람과 공감?', desc:'결정을 내릴 때 무엇을 더 중요하게 보는지 봐요.'},
+  {step:'q_jp', key:'JP', a:'J', b:'P', aName:'계획(J)', bName:'즉흥(P)', title:'생활 | 미리 정리? 흐름에 맡김?', desc:'일상과 일정을 운영하는 방식을 봐요.'},
+  {step:'q_id', key:'AT', a:'A', b:'T', aName:'안정(A)', bName:'섬세(T)', title:'정서 | 느긋하게? 예민하게?', desc:'걱정과 스트레스에 반응하는 방식을 봐요.'}
+];
+const LK_ITEMS = {
+  EI: [
+    {id:'ei1', p:'E', t:'새로운 사람이 모이는 회식이나 네트워킹 자리가 생기면 일단 가서 이야기를 나누는 편이다.'},
+    {id:'ei2', p:'I', t:'재택근무나 혼자 일하는 날이 많아지면 오히려 에너지가 채워지는 느낌이 든다.'},
+    {id:'ei3', p:'E', t:'요즘 화제인 팝업스토어나 핫플 오픈런을 사람들과 함께 가면 더 즐겁다.'},
+    {id:'ei4', p:'I', t:'단톡방 알림이 쌓이면 바로 답하기보다 시간이 날 때 몰아서 보는 편이다.'},
+    {id:'ei5', p:'E', t:'처음 만난 사람과도 AI, 부업, 재테크 같은 요즘 이야기로 금방 대화를 이어간다.'}
+  ],
+  SN: [
+    {id:'sn1', p:'N', t:'생성형 AI가 바꿀 미래 일자리를 떠올리면 걱정보다 이런저런 가능성이 먼저 상상된다.'},
+    {id:'sn2', p:'S', t:'새로운 앱이나 AI 도구를 쓰기 전에 실제 사용 후기와 사용법을 꼼꼼히 확인한다.'},
+    {id:'sn3', p:'N', t:'물가 뉴스를 볼 때 구체적인 숫자보다 앞으로 사회가 어떻게 달라질지가 더 궁금하다.'},
+    {id:'sn4', p:'S', t:'여행을 갈 때 분위기보다 검증된 후기, 동선, 가격 같은 구체적인 정보를 먼저 챙긴다.'},
+    {id:'sn5', p:'N', t:'대화할 때 지금 있었던 일보다 "그게 결국 어떤 의미일까" 같은 이야기에 더 끌린다.'}
+  ],
+  TF: [
+    {id:'tf1', p:'T', t:'회사에서 AI 도입으로 일하는 방식이 바뀔 때, 감정보다 효율과 근거로 판단하려고 한다.'},
+    {id:'tf2', p:'F', t:'친구가 번아웃이라고 털어놓으면 해결책보다 먼저 충분히 공감해 주고 싶다.'},
+    {id:'tf3', p:'T', t:'더치페이나 정산이 애매할 때는 서운해하더라도 기준대로 깔끔하게 처리하는 편이 낫다.'},
+    {id:'tf4', p:'F', t:'온라인에서 논란이 된 사연을 보면 사실관계보다 당사자의 처지와 마음이 먼저 느껴진다.'},
+    {id:'tf5', p:'T', t:'의견이 다를 때는 상대 기분이 상할 수 있어도 논리적으로 짚고 넘어가야 한다고 생각한다.'}
+  ],
+  JP: [
+    {id:'jp1', p:'J', t:'월급날이나 연초에 한 달·한 해의 예산과 목표를 미리 계획해 두는 편이다.'},
+    {id:'jp2', p:'P', t:'주말 일정은 미리 정하기보다 그날의 기분과 컨디션에 맞춰 정하는 게 편하다.'},
+    {id:'jp3', p:'J', t:'할 일 앱이나 캘린더에 적고 체크해야 마음이 놓인다.'},
+    {id:'jp4', p:'P', t:'마감 직전에 집중력이 올라와서 미루다가 몰아서 끝내는 편이다.'},
+    {id:'jp5', p:'J', t:'갑자기 일정이 바뀌면 계획이 흐트러져서 스트레스를 받는다.'}
+  ],
+  AT: [
+    {id:'at1', p:'T', t:'SNS에서 다른 사람의 근황이나 성과를 보면 나도 모르게 나와 비교하게 된다.'},
+    {id:'at2', p:'A', t:'예상치 못한 문제가 생겨도 크게 흔들리지 않고 금방 마음을 가라앉힌다.'},
+    {id:'at3', p:'T', t:'일이 끝난 뒤에도 "그때 그렇게 말할걸" 하고 오래 되새기는 편이다.'},
+    {id:'at4', p:'A', t:'번아웃·불안 이야기를 자주 접해도 "나는 내 페이스대로 가면 된다"고 생각한다.'},
+    {id:'at5', p:'T', t:'중요한 일을 앞두면 잠을 설칠 만큼 걱정이 커진다.'}
+  ]
+};
+const LK_LABELS = ['전혀 아니다','아니다','보통','그렇다','매우 그렇다'];
+function renderLikert(step){
+  const ax = LK_AXES.find(x=>x.step===step);
+  const idx = LK_AXES.indexOf(ax);
+  const items = LK_ITEMS[ax.key];
+  const done = items.filter(it=>state.lk[it.id]).length;
+  const q = items.map((it,i)=>`
+    <div class="lk-item" id="lk_${it.id}">
+      <div class="lk-q"><b>${i+1}.</b> ${esc(it.t)}</div>
+      <div class="lk-scale">${[1,2,3,4,5].map(v=>`<button class="lk-btn ${state.lk[it.id]===v?'sel':''}" onclick="setLk('${it.id}',${v})" aria-label="${LK_LABELS[v-1]}">${v}</button>`).join('')}</div>
+      <div class="lk-ends"><span>전혀 아니다</span><span>매우 그렇다</span></div>
+    </div>`).join('');
   return `
-  <div class="step-label">성향 테스트 · 성향 질문 ${idx+1} / 4</div>
-  <h2 class="qtitle">${title}</h2>
-  <div class="scenario">${scenarioText}</div>
-  <textarea id="ans" placeholder="편하게 떠오르는 대로 적어보세요...">${esc(state[field])}</textarea>
+  <div class="step-label">성향 테스트 · ${idx+1} / 5 · ${ax.aName.replace(/\(.*\)/,'')} ↔ ${ax.bName.replace(/\(.*\)/,'')}</div>
+  <h2 class="qtitle">${ax.title}</h2>
+  <p class="qhint">${ax.desc} 첫인상대로 가장 가까운 정도를 골라 주세요.</p>
+  ${q}
   <div class="nav">
     <button class="btn ghost" onclick="go(-1)">이전</button>
-    <button class="btn primary" id="nextBtn" onclick="saveScenario('${field}')">다음</button>
+    <button class="btn primary" ${done===items.length?'':'disabled'} onclick="go(1)">다음 (${done}/${items.length})</button>
   </div>`;
 }
-function saveScenario(field){
-  const val = document.getElementById('ans').value.trim();
-  if(!val){ document.getElementById('ans').style.borderColor = 'var(--coral)'; return; }
-  state[field] = val;
-  go(1);
+function setLk(id, v){
+  state.lk[id] = v;
+  render(true);
+}
+/* 응답 → 축별 점수 (AI가 아니라 계산으로 정해요) */
+function computePersonaScores(){
+  const axes = LK_AXES.map(ax=>{
+    const items = LK_ITEMS[ax.key];
+    let sum=0, n=0, mid=0;
+    items.forEach(it=>{
+      const v = state.lk[it.id]; if(!v) return;
+      const toA = (it.p===ax.a) ? v : 6-v;         // a쪽에 가까울수록 5
+      sum += toA; n++; if(v===3) mid++;
+    });
+    const mean = n ? sum/n : 3;
+    const pctA = Math.round((mean-1)/4*100);
+    const result = pctA>=50 ? ax.a : ax.b;
+    const pct = result===ax.a ? pctA : 100-pctA;   // 결과 쪽 비율
+    const strength = pct>=75 ? '뚜렷하게' : (pct>=62 ? '꽤' : '약간');
+    return {key:ax.key, a:ax.a, b:ax.b, aName:ax.aName, bName:ax.bName, result, pct, pctA, strength, mid, borderline: pct<58};
+  });
+  const type = axes.slice(0,4).map(a=>a.result).join('') + '-' + axes[4].result;
+  return {axes, type};
 }
 function renderExtra(){
   return `
   <div class="step-label">성향 테스트 · 마지막 · 선택</div>
   <h2 class="qtitle">마지막으로, 선택 질문이에요</h2>
-  <p class="qhint">답하지 않아도 괜찮아요.</p>
+  <p class="qhint">답하지 않아도 괜찮아요. 적어 주시면 리포트가 더 나다워져요.</p>
+  <div class="field"><label>요즘 가장 신경 쓰이는 고민이나 이슈 (예: 이직, 번아웃, 물가, AI)</label>
+    <textarea id="currentIssue" placeholder="예: 요즘 AI 때문에 내 일이 어떻게 될지 궁금해요">${esc(state.currentIssue)}</textarea>
+  </div>
+  <div class="field"><label>스트레스를 받으면 주로 무엇으로 푸나요?</label>
+    <input type="text" id="q_stress" value="${esc(state.q_stress)}" placeholder="예: 러닝, 숏폼 보기, 맛집 가기">
+  </div>
   <div class="field"><label>주변 사람들이 나를 표현할 때 자주 쓰는 단어</label>
     <input type="text" id="friendKeyword" value="${esc(state.friendKeyword)}" placeholder="예: 씩씩한, 다정한, 엉뚱한">
   </div>
@@ -1691,8 +1781,12 @@ function renderResult(){
     <div class="mbti-axes">${(rp.mbti_axes||[]).map(a=>`
       <div class="mbti-axis-row">
         <div class="mbti-axis-tag">${esc(a.axis)}</div>
-        <div class="mbti-axis-body"><b>${esc(a.label||a.result)}</b><span>${esc(a.desc)}</span></div>
+        <div class="mbti-axis-body"><b>${esc(a.label||a.result)}${a.pct!=null ? ` · ${a.pct}%` : ''}${a.strength ? ` <em class="strength">${esc(a.strength)}</em>` : ''}</b>
+          ${a.pct!=null ? `<div class="axis-bar"><i style="width:${Math.max(2,Math.min(98,a.pctA))}%"></i></div><div class="axis-ends"><span>${esc(a.leftName||'')}</span><span>${esc(a.rightName||'')}</span></div>` : ''}
+          <span>${esc(a.desc)}</span></div>
       </div>`).join('')}</div>
+    ${(rp.issue_insights||[]).length ? `${sTitle('요즘 이슈로 보는 나')}
+    <div class="issue-list">${rp.issue_insights.map(x=>`<div class="issue-card"><b>${esc(x.topic)}</b><span>${esc(x.text)}</span></div>`).join('')}</div>` : ''}
 
     ${sTitle('나의 성향')}
     <p class="r-p">${esc(rp.personality_summary)}</p>
@@ -1736,7 +1830,7 @@ function renderResult(){
     <button class="btn ghost-light small" onclick="downloadCard('partColor','퍼스널컬러_결과지.png')">컬러 결과지만 저장</button>
     <button class="btn ghost-light small" onclick="downloadCard('partPersona','성향_결과지.png')">성향 결과지만 저장</button>
   </div>` : ''}
-  ${(rc && !state.wantPersona) ? `<div class="add-box"><b>성향 테스트도 해보고 싶으세요?</b><span>질문 5개(약 5분)에 답하면 성향 결과지가 이 화면에 추가돼요. 컬러 결과는 그대로 유지돼요.</span><button class="btn primary wide" onclick="addPersona()">성향 테스트 추가하기</button></div>` : ''}
+  ${(rc && !state.wantPersona) ? `<div class="add-box"><b>성향 테스트도 해보고 싶으세요?</b><span>25문항(약 6분)에 답하면 성향 결과지가 이 화면에 추가돼요. 컬러 결과는 그대로 유지돼요.</span><button class="btn primary wide" onclick="addPersona()">성향 테스트 추가하기</button></div>` : ''}
   ${(rp && !state.wantColor) ? `<div class="add-box"><b>퍼스널 컬러 진단도 해보고 싶으세요?</b><span>사진 촬영과 질문(약 8분)에 답하면 컬러 결과지가 추가돼요.</span><button class="btn primary wide" onclick="addColor()">퍼스널 컬러 진단 추가하기</button></div>` : ''}`;
 }
 
@@ -2678,45 +2772,57 @@ function mergeReport(d, rep){
 }
 
 function buildPersonaPrompt(){
+  const sc = computePersonaScores();
   const L = [];
-  L.push('성인 사용자가 아래 성향 질문에 답했어요. 이 답변을 바탕으로 MBTI 스타일 성향 리포트를 만들어주세요.');
+  L.push('성인 사용자가 25문항(5단계 응답) 성향 테스트를 마쳤어요. 응답 점수는 이미 계산되어 있어요. 이 결과를 풀어서 설명하는 리포트를 만들어주세요.');
   L.push('');
-  L.push('[성향 질문 답변]');
-  L.push(`- (E·I) 점심시간을 어떻게 보내고 싶은지: ${state.q_ei}`);
-  L.push(`- (S·N) 인상 깊은 책/영화를 소개하는 방식: ${state.q_sn}`);
-  L.push(`- (F·T) 일이 안 풀려 속상한 지인에게 하는 말/행동: ${state.q_ft}`);
-  L.push(`- (J·P) 약속 없는 주말을 보내는 방식: ${state.q_jp}`);
-  L.push(`- 스트레스를 풀 때 하는 것: ${state.q_stress}`);
-  if(state.friendKeyword) L.push(`- 주변 사람들이 나를 표현하는 단어: ${state.friendKeyword}`);
+  L.push('[계산된 결과 - 이 값을 바꾸지 마세요]');
+  L.push(`- 유형: ${sc.type}`);
+  sc.axes.forEach(a=>{
+    L.push(`- ${a.aName} vs ${a.bName}: ${a.result}쪽 ${a.pct}% (${a.strength} ${a.result}) ${a.borderline?'· 경계에 가까움(상황에 따라 반대쪽도 씀)':''}`);
+  });
+  const items = [];
+  LK_AXES.forEach(ax=>LK_ITEMS[ax.key].forEach(it=>{ const v=state.lk[it.id]; if(v && (v===5||v===1)) items.push(`(${v===5?'매우 그렇다':'전혀 아니다'}) ${it.t}`); }));
+  if(items.length){ L.push(''); L.push('[강하게 답한 문항]'); items.slice(0,10).forEach(x=>L.push('- '+x)); }
   L.push('');
-  L.push('위 정보를 종합해서 JSON 스키마에 맞춰 응답해주세요. mbti_axes 4개와 mbti_type을 반드시 포함해주세요.');
+  L.push('[선택 입력]');
+  L.push(`- 요즘 신경 쓰이는 고민/이슈: ${state.currentIssue || '(없음)'}`);
+  L.push(`- 스트레스를 푸는 방법: ${state.q_stress || '(없음)'}`);
+  L.push(`- 주변에서 나를 표현하는 단어: ${state.friendKeyword || '(없음)'}`);
+  L.push('');
+  L.push('위 정보를 종합해서 JSON 스키마에 맞춰 응답해주세요.');
   return L.join('\n');
 }
 
+function mergePersona(rep){
+  const sc = computePersonaScores();
+  const desc = Array.isArray(rep.axis_desc) ? rep.axis_desc : [];
+  const rp = Object.assign({}, rep);
+  rp.mbti_type = sc.type;
+  rp.mbti_axes = sc.axes.map((a,i)=>({
+    axis: a.a+' · '+a.b, result:a.result, label:(a.result===a.a?a.aName:a.bName), pct:a.pct, strength:a.strength, borderline:a.borderline,
+    leftName:a.aName, rightName:a.bName, pctA:a.pctA, desc: desc[i] ? String(desc[i]) : ''
+  }));
+  return rp;
+}
 
 const PERSONA_SYSTEM_PROMPT = `당신은 성인을 위한 친절하고 통찰력 있는 성향 분석가입니다.
-사용자가 적은 성향 질문 답변을 바탕으로 아래 JSON 스키마에 맞춰 **오직 JSON만** 응답하세요. 코드블록(백틱), 설명, 다른 텍스트를 절대 포함하지 마세요.
+사용자의 25문항 응답으로 이미 유형과 축별 점수가 계산되어 있습니다. 그 값을 절대 바꾸지 말고, 그 결과를 풀어서 설명하는 리포트를 아래 JSON 스키마로 **오직 JSON만** 응답하세요. 코드블록(백틱)과 다른 텍스트는 금지입니다.
 
 규칙:
-- [성향 질문 답변]의 E·I, S·N, F·T, J·P 4개 질문에 대한 답변을 각각 분석해서, 각 축마다 어느 쪽에 가까운지 mbti_axes에 반드시 채워주세요. 이건 공식 심리 진단이 아니라 "이 답변에서 느껴지는 경향"이라는 가벼운 톤으로, 재미있는 자기이해 활동처럼 표현합니다. 100% 단정("당신은 무조건 E형입니다")이 아니라 "~한 경향이 보여요" 같은 부드러운 표현을 씁니다.
-- 각 축의 desc에는 사용자가 쓴 답변에서 근거가 된 내용을 짧게 인용하거나 요약합니다.
-- 답변이 너무 짧거나 애매하면 가장 가까운 쪽으로 정하되 desc에 "답변이 짧아서 조금 추정했어요"라고 짧게 밝힙니다.
-- 외모나 능력을 평가·비교하지 않고, 항상 긍정적이고 응원하는 톤을 유지합니다. 단점도 "이럴 땐 이렇게" 식의 성장 관점으로 씁니다. 직장·관계·일상에서 활용할 수 있는 조언을 담습니다.
-- 모든 문장은 짧고 쉬운 한국어로 씁니다. 각 문장은 최대한 짧게(15단어 이내) 씁니다.
-- 전체 응답은 1500 토큰 이내로 작성하되, **완전한 JSON으로 끝까지 마무리하는 것이 최우선**입니다.
-- hex 색상 코드는 실제 그 색에 맞는 정확한 #RRGGBB 값을 사용합니다.
+- 공식 심리검사가 아니라 "응답에서 나타난 경향"이라는 가벼운 톤으로, 단정하지 않고 쉽게 씁니다.
+- axis_desc는 5개(E·I, S·N, T·F, J·P, A·T 순서)이고, 각 축의 점수(%)와 강도를 반영해 1문장으로 설명합니다. "경계에 가까움"이면 상황에 따라 반대쪽도 쓴다고 짧게 덧붙입니다.
+- issue_insights는 3개입니다. 주제는 요즘 이슈(AI와 일, 번아웃과 휴식, SNS 비교, 물가와 소비, 재택·관계, 이직·부업 등) 중 이 사람의 점수와 선택 입력에 가장 잘 맞는 것을 고르고, 각 text는 "이 성향이라면 이럴 때 이렇게 해보세요" 식의 구체적인 한두 문장입니다. 정치적으로 논쟁이 되는 주제는 다루지 않습니다.
+- 외모나 능력을 평가·비교하지 않고 긍정적이고 응원하는 톤을 유지합니다. 단점은 성장 관점으로 씁니다.
+- 모든 문장은 짧고 쉬운 한국어(문장당 15단어 이내)로 씁니다.
+- **완전한 JSON으로 끝까지 마무리하는 것이 최우선**입니다. hex 색상은 정확한 #RRGGBB입니다.
 
 JSON 스키마:
 {
-  "persona_keywords": ["나를 표현하는 짧은 형용사 4개, 예: 따뜻한, 호기심 많은"],
-  "mbti_axes": [
-    {"axis":"E · I","result":"E 또는 I","label":"예: 외향형(E)","desc":"1문장, 답변 근거를 짧게"},
-    {"axis":"S · N","result":"S 또는 N","label":"예: 직관형(N)","desc":"1문장"},
-    {"axis":"F · T","result":"F 또는 T","label":"예: 감정형(F)","desc":"1문장"},
-    {"axis":"J · P","result":"J 또는 P","label":"예: 판단형(J)","desc":"1문장"}
-  ],
-  "mbti_type": "위 4개 result를 합친 4글자, 예: ENFJ",
-  "personality_summary": "1~2문장, mbti_type을 자연스럽게 언급하며 전체 성향을 설명",
+  "persona_keywords": ["나를 표현하는 짧은 형용사 4개"],
+  "axis_desc": ["E·I 설명 1문장","S·N 설명 1문장","T·F 설명 1문장","J·P 설명 1문장","A·T 설명 1문장"],
+  "issue_insights": [{"topic":"예: AI 시대의 나","text":"1~2문장"},{"topic":"","text":""},{"topic":"","text":""}],
+  "personality_summary": "1~2문장, 유형을 자연스럽게 언급하며 전체 성향 설명",
   "strengths": ["3개, 짧은 문장"],
   "stress_signs": ["2~3개, 짧은 문장"],
   "recovery_tips": ["3개, 짧은 문장"],
@@ -2800,7 +2906,7 @@ async function runAnalysis(onlyMissing){
   if(needP){ state.rp = null; state.errP = null; }
 
   const personaP = needP
-    ? askAI(PERSONA_SYSTEM_PROMPT, buildPersonaPrompt(), 2500).then(val=>({ok:true,val}), e=>({ok:false,e}))
+    ? askAI(PERSONA_SYSTEM_PROMPT, buildPersonaPrompt(), 3200).then(val=>({ok:true,val}), e=>({ok:false,e}))
     : Promise.resolve(null);
 
   if(needC){
@@ -2817,7 +2923,7 @@ async function runAnalysis(onlyMissing){
   setLoadingText('성향 리포트를 정리하는 중...');
   const p = await personaP;
   if(p){
-    if(p.ok) state.rp = p.val;
+    if(p.ok) state.rp = mergePersona(p.val);
     else { console.error(p.e); state.errP = '잠시 후 다시 시도해주세요. (' + ((p.e && p.e.message) || '오류') + ')'; }
   }
   jump('result');

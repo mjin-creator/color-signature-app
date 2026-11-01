@@ -989,8 +989,28 @@ function render(keepScroll){
   if(id==='photo' && !state.photoBase64) initCamera();
   if(keepScroll) window.scrollTo(0, y); else window.scrollTo(0, 0);
   saveDraft();
+  if(id==='result') saveLastResult();
 }
 
+const LAST_KEY = 'color_signature_lastresult_v1';
+function hasLastResult(){ try{ return !!localStorage.getItem(LAST_KEY); }catch(e){ return false; } }
+function saveLastResult(){
+  try{ if(state.rc || state.rp) localStorage.setItem(LAST_KEY, JSON.stringify(state)); }catch(e){}
+}
+async function openLastResult(){
+  let saved=null;
+  try{ saved = JSON.parse(localStorage.getItem(LAST_KEY)||'null'); }catch(e){}
+  if(!saved){ alert('저장된 지난 결과가 없어요.'); return; }
+  Object.assign(state, freshState(), saved);
+  try{
+    if(state.photoBase64 && state.diag && state.diag.order){
+      const img = await loadImg(`data:${state.photoMediaType};base64,${state.photoBase64}`);
+      const geom = locateFace(img);
+      state.drapeSheet = buildDrapeSheet(img, geom, state.diag.order).url;
+    }
+  }catch(e){ console.error(e); }
+  jump('result');
+}
 const DRAFT_KEY = 'color_signature_draft_v5';
 
 function saveDraft(){
@@ -1043,8 +1063,9 @@ function renderIntro(){
   <div class="nav" style="margin-top:0;flex-direction:column;">
     <button class="btn primary wide" onclick="startColor()">퍼스널 컬러 진단 시작</button>
     <button class="btn ghost wide" onclick="startPersonaOnly()">성향 테스트만 해보기</button>
+    ${hasLastResult() ? '<button class="btn ghost wide" onclick="openLastResult()">지난 결과 다시 보기</button>' : ''}
   </div>
-  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v6.1 · 11월 1일</div>`;
+  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v6.2 · 11월 1일</div>`;
 }
 
 function renderPartIntro(part){
@@ -2175,7 +2196,7 @@ function drawGarment(ctx, ox, oy, PW, PH, g, style, hex, metal){
 }
 
 // 8쌍(16장)을 한 장의 비교 시트로 만들어요. 어느 쪽이 어떤 색인지 AI에게는 알려주지 않아요 (블라인드).
-function buildDrapeSheet(img, geom){
+function buildDrapeSheet(img, geom, fixedOrder){
   const g=geom || FACE_FALLBACK;
   const PW=240, PH=300, COLS=4, ROWS=4;
   const c=document.createElement('canvas'); c.width=PW*COLS; c.height=PH*ROWS;
@@ -2184,7 +2205,7 @@ function buildDrapeSheet(img, geom){
   const r=cropRect(img.naturalWidth, img.naturalHeight);
   const order={};
   DRAPES.forEach((d, p)=>{
-    const flip=Math.random()<0.5;
+    const flip=(fixedOrder && fixedOrder[d.id]) ? (fixedOrder[d.id].A==='b') : (Math.random()<0.5);
     order[d.id]={A: flip ? 'b' : 'a'};
     const row=Math.floor(p/2), colBase=(p%2)*2;
     ['A','B'].forEach((slot,k)=>{
@@ -2634,6 +2655,7 @@ async function makeDiagnosis(){
     if(!judge || !Array.isArray(judge.drapes)) judge = null;
   }catch(e){ console.error('judge failed', e); judge = null; }
   state.diag = computeDiagnosis(meas, judge, sheet.order);
+  if(state.diag) state.diag.order = sheet.order;
 }
 
 async function runAnalysis(onlyMissing){
@@ -2707,6 +2729,7 @@ function repairTruncatedJSON(raw){
 }
 
 loadDraft();
+try{ if(/[?&]last(=|&|$)/.test(location.search) && hasLastResult()) openLastResult(); }catch(e){}
 
 </script>
 </body>

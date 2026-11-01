@@ -667,6 +667,8 @@
   .verdict-row .vpick.none{color:var(--muted);font-weight:400;}
   .verdict-row{flex-wrap:wrap;}
   .vreason{flex-basis:100%;font-size:11.5px;color:#6d6280;line-height:1.5;}
+  .consent-row{display:flex;gap:10px;align-items:flex-start;margin:10px 0;font-size:13px;line-height:1.6;color:#2b2140;}
+  .consent-row input{width:20px;height:20px;margin-top:2px;flex:none;}
   .guide-box{background:#FFF8E8;border-radius:12px;padding:11px 13px;margin:10px 0;font-size:12.5px;line-height:1.6;color:#5a4a2c;}
   .guide-box ul{margin:6px 0 0;padding-left:18px;}
   .guide-box li{margin-bottom:4px;}
@@ -907,7 +909,7 @@ function freshState(){
     // PART 1 — 4단계 대비
     eyeColor: '', hairColor: '', eyeContrast: '', hairSkinContrast: '', skinLevel: '',
     // PART 2 — 성향
-    lk: {}, q_stress: '', currentIssue: '', friendKeyword: '',
+    consent: false, lk: {}, q_stress: '', currentIssue: '', friendKeyword: '',
     // 진단 (측정 + AI 드레이핑 판정 + 점수 계산)
     diag: null, drapeSheet: '',
     // 어떤 테스트를 하는지 (컬러 / 성향 각각 선택)
@@ -918,10 +920,10 @@ function freshState(){
 }
 const state = freshState();
 
-const steps = ['intro','p1intro','photo','basic','survey','beauty','observe','choice',
+const steps = ['intro','p1intro','consent','photo','basic','survey','beauty','observe','choice',
                'p2intro','q_ei','q_sn','q_ft','q_jp','q_id','extra','loading','result'];
 const PART_STEPS = {
-  1: ['photo','basic','survey','beauty','observe'],
+  1: ['consent','photo','basic','survey','beauty','observe'],
   2: ['q_ei','q_sn','q_ft','q_jp','q_id','extra']
 };
 const PART_NAME = {1:'퍼스널 컬러', 2:'성향 테스트'};
@@ -987,6 +989,7 @@ function render(keepScroll){
     let body = '';
     if(id==='intro') body = renderIntro();
     else if(id==='p1intro') body = renderPartIntro(1);
+    else if(id==='consent') body = renderConsent();
     else if(id==='photo') body = renderPhoto();
     else if(id==='basic') body = renderBasic();
     else if(id==='survey') body = renderSurvey();
@@ -1013,7 +1016,7 @@ function render(keepScroll){
 const LAST_KEY = 'color_signature_lastresult_v1';
 function hasLastResult(){ try{ return !!localStorage.getItem(LAST_KEY); }catch(e){ return false; } }
 function saveLastResult(){
-  try{ if(state.rc || state.rp) localStorage.setItem(LAST_KEY, JSON.stringify(state)); }catch(e){}
+  try{ if(savePref() && (state.rc || state.rp)) localStorage.setItem(LAST_KEY, JSON.stringify(state)); }catch(e){}
 }
 async function openLastResult(){
   let saved=null;
@@ -1083,7 +1086,7 @@ function renderIntro(){
     <button class="btn ghost wide" onclick="startPersonaOnly()">성향 테스트만 해보기</button>
     ${hasLastResult() ? '<button class="btn ghost wide" onclick="openLastResult()">지난 결과 다시 보기</button>' : ''}
   </div>
-  <div class="small-note" style="text-align:center;margin-top:10px;">버전 v8.1 · 11월 1일</div>`;
+  <div class="small-note" style="text-align:center;margin-top:10px;"><a href="#" onclick="showPolicy();return false;" style="color:inherit;text-decoration:underline;">개인정보 처리방침</a> · <a href="#" onclick="if(confirm('이 기기에 저장된 사진과 결과를 모두 지울까요?')) deleteMyData(); return false;" style="color:inherit;text-decoration:underline;">내 사진·결과 지우기</a><br>버전 v9 · 11월 1일</div>`;
 }
 
 function renderPartIntro(part){
@@ -1122,7 +1125,67 @@ function renderPartIntro(part){
     <div class="crit"><b>5개 축</b><span>에너지(E·I), 정보(S·N), 판단(T·F), 생활(J·P), 정서 안정(A·T)을 축마다 5문항씩 물어요.</span></div>
     <div class="crit"><b>점수 계산</b><span>유형은 AI가 아니라 응답 점수로 계산하고, AI는 그 결과를 풀어서 설명해요. 공식 심리검사는 아니에요.</span></div>
   </div>
+  <div class="small-note" style="margin:8px 0;">답변은 AI 분석을 위해 OpenAI(미국)로 전송돼요. 이름·연락처는 묻지 않아요. <a href="#" onclick="showPolicy();return false;" style="text-decoration:underline;">개인정보 처리방침</a></div>
   <div class="nav"><button class="btn ghost" onclick="backFromPersona()">이전</button><button class="btn primary" onclick="go(1)">성향 테스트 시작</button></div>`;
+}
+
+
+/* ---------- 개인정보 안내 · 동의 ---------- */
+const OPERATOR_NAME = '[운영자 이름을 입력하세요]';
+const OPERATOR_CONTACT = '[문의 이메일을 입력하세요]';
+const SAVE_PREF_KEY = 'color_signature_save_pref_v1';
+function savePref(){ try{ return localStorage.getItem(SAVE_PREF_KEY)==='1'; }catch(e){ return false; } }
+function setSavePref(on){ try{ localStorage.setItem(SAVE_PREF_KEY, on?'1':'0'); if(!on) localStorage.removeItem(LAST_KEY); }catch(e){} }
+function deleteMyData(){
+  try{ localStorage.removeItem(LAST_KEY); }catch(e){}
+  try{ if(window.storage) window.storage.delete(DRAFT_KEY, false).catch(()=>{}); }catch(e){}
+  Object.assign(state, freshState());
+  alert('이 기기에 저장된 사진과 결과를 모두 지웠어요.');
+  jump('intro');
+}
+function renderConsent(){
+  return `
+  <div class="step-label">컬러 진단 · 시작 전 확인</div>
+  <h2 class="qtitle">사진과 개인정보 사용 안내</h2>
+  <p class="qhint">얼굴 사진은 민감한 정보예요. 아래 내용을 읽고 동의하면 사진 촬영으로 넘어가요.</p>
+  <div class="guide-box" style="background:#F2F7FF;color:#2d3f5c;">
+    <ul>
+      <li><b>무엇을 사용하나요?</b> 내가 찍거나 올린 얼굴 사진, 질문 답변(성별·피부 관찰 등). 이름·연락처·계정은 묻지 않아요.</li>
+      <li><b>어디로 보내나요?</b> 분석을 위해 사진과 답변이 중계 서버를 거쳐 <b>미국의 AI 회사(OpenAI)</b>로 전송돼 처리돼요.</li>
+      <li><b>보관하나요?</b> 이 서비스는 사진을 서버에 저장하지 않아요. 다만 AI 처리 과정에서 OpenAI가 자사 정책에 따라 일정 기간 보관할 수 있어요.</li>
+      <li><b>내 폰에는?</b> 사진과 결과는 이 브라우저에만 임시로 있고, 아래에서 선택한 경우에만 '지난 결과'로 저장돼요. 언제든 지울 수 있어요.</li>
+      <li><b>동의하지 않으면?</b> 사진 없이는 컬러 진단을 할 수 없어요. 성향 테스트는 사진 없이 할 수 있어요.</li>
+    </ul>
+    <div class="small-note" style="margin-top:6px;">이 서비스는 만 19세 이상 성인을 위한 참고용 자가 진단이에요. <a href="#" onclick="showPolicy();return false;" style="color:#3a5fb0;text-decoration:underline;">개인정보 처리방침 전체 보기</a></div>
+  </div>
+  <label class="consent-row"><input type="checkbox" id="consentChk" ${state.consent?'checked':''} onchange="state.consent=this.checked;document.getElementById('consentNext').disabled=!this.checked;"> <span><b>[필수]</b> 얼굴 사진과 답변을 AI 분석을 위해 OpenAI(미국)로 전송하는 것에 동의합니다.</span></label>
+  <label class="consent-row"><input type="checkbox" id="saveChk" ${savePref()?'checked':''} onchange="setSavePref(this.checked)"> <span><b>[선택]</b> 다음에 다시 볼 수 있도록 결과(사진 포함)를 이 기기에 저장합니다.</span></label>
+  <div class="nav">
+    <button class="btn ghost" onclick="go(-1)">이전</button>
+    <button class="btn primary" id="consentNext" ${state.consent?'':'disabled'} onclick="go(1)">동의하고 계속</button>
+  </div>`;
+}
+function showPolicy(){
+  const old = document.getElementById('policyModal'); if(old) old.remove();
+  const el = document.createElement('div');
+  el.id='policyModal';
+  el.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(20,10,40,.6);display:flex;align-items:flex-end;justify-content:center;';
+  el.innerHTML = `
+  <div style="background:#fff;width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 18px 28px;font-size:13px;line-height:1.7;color:#2b2140;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><b style="font-size:16px;">개인정보 처리방침</b><button onclick="document.getElementById('policyModal').remove()" style="border:none;background:#eee;border-radius:8px;padding:6px 12px;font-weight:700;">닫기</button></div>
+    <p style="color:#8a7fa0;font-size:12px;">시행일: 2026년 11월 1일 · 운영자: ${esc(OPERATOR_NAME)} · 문의: ${esc(OPERATOR_CONTACT)}</p>
+    <p><b>1. 처리하는 개인정보 항목</b><br>얼굴 사진(촬영 또는 업로드), 성별, 피부·눈·머리색 등 관찰 답변, 성향 문항 응답과 자유 입력(선택). 이름, 연락처, 주소, 계정 정보는 수집하지 않아요.</p>
+    <p><b>2. 처리 목적</b><br>퍼스널 컬러 진단과 성향 결과지 생성, 결과 화면 표시에만 사용해요. 광고, 마케팅, 제3자 제공, AI 학습 목적으로 사용하지 않아요.</p>
+    <p><b>3. 국외 이전</b><br>이전받는 자: OpenAI (미국) / 이전 항목: 위 1항의 사진과 답변 / 이전 목적: AI 분석 처리 / 이전 방법: 중계 서버(Cloudflare Workers)를 거친 암호화(HTTPS) 전송 / 보유·이용 기간: OpenAI의 정책에 따라 처리 후 일정 기간 보관될 수 있으며, 이 서비스는 별도로 보관하지 않아요.</p>
+    <p><b>4. 이 서비스에서의 보관</b><br>이 서비스는 사진과 결과를 자체 서버에 저장하지 않아요. 사용자가 '이 기기에 저장'을 선택한 경우에만 사용자의 브라우저(로컬 저장소)에 저장되며, 서비스 운영자는 접근할 수 없어요.</p>
+    <p><b>5. 삭제 방법</b><br>첫 화면 또는 결과 화면의 '내 사진·결과 지우기' 버튼으로 이 기기의 데이터를 즉시 지울 수 있어요. 브라우저의 사이트 데이터 삭제로도 지워져요.</p>
+    <p><b>6. 동의 거부 권리</b><br>사진 전송에 동의하지 않을 수 있어요. 다만 컬러 진단은 사진이 필요해서 이용할 수 없어요. 성향 테스트는 사진 없이 이용할 수 있어요.</p>
+    <p><b>7. 이용 대상</b><br>만 19세 이상 성인을 대상으로 해요. 결과는 재미와 참고를 위한 자가 진단이며 의학적·전문적 진단이 아니에요.</p>
+    <p><b>8. 문의</b><br>개인정보 관련 문의·삭제 요청: ${esc(OPERATOR_CONTACT)}</p>
+    <p style="color:#8a7fa0;font-size:11.5px;">※ 이 방침은 서비스 운영 전에 관련 법령(개인정보 보호법 등) 기준으로 전문가의 확인을 받아 보완해야 해요.</p>
+  </div>`;
+  el.addEventListener('click', e=>{ if(e.target===el) el.remove(); });
+  document.body.appendChild(el);
 }
 
 /* ---------- 컬러 / 성향 흐름 분기 ---------- */
@@ -1826,6 +1889,7 @@ function renderResult(){
 
   <div class="nav" style="margin-top:18px;">
     <button class="btn ghost-light" onclick="resetAll()">다시 만들기</button>
+    <button class="btn ghost-light small" data-html2canvas-ignore="true" onclick="if(confirm('이 기기에 저장된 사진과 결과를 모두 지울까요?')) deleteMyData();">내 사진·결과 지우기</button>
     <button class="btn primary" onclick="downloadCard('resultCard','컬러_시그니처.png')">전체 이미지로 저장</button>
   </div>
   ${both ? `<div class="nav" style="margin-top:10px;">
